@@ -1,130 +1,168 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>North Brew Coffee</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>The TopShelf Shop — Strain Catalog (Info Only)</title>
+  <meta name="description" content="The TopShelf Shop — informational catalog of cannabis strains. This site is for educational and demo purposes only." />
   <style>
-    body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background-color: #faf8f6;
-      color: #333;
-      margin: 0;
-      line-height: 1.6;
-    }
-    header {
-      background-color: #3b2f2f;
-      color: white;
-      text-align: center;
-      padding: 2rem 1rem;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 2rem;
-      letter-spacing: 1px;
-    }
-    header p {
-      margin-top: 0.5rem;
-      font-size: 1.1rem;
-      color: #d9cfc2;
-    }
-    main {
-      max-width: 900px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-    }
-    section {
-      margin-bottom: 3rem;
-    }
-    h2 {
-      color: #3b2f2f;
-      border-bottom: 2px solid #c3a27f;
-      display: inline-block;
-      padding-bottom: 0.25rem;
-    }
-    .product-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
-    }
-    .product-table th, .product-table td {
-      border: 1px solid #ccc;
-      padding: 0.75rem;
-      text-align: center;
-    }
-    .product-table th {
-      background-color: #f2e8de;
-    }
-    .product-table tr:nth-child(even) {
-      background-color: #f9f4f1;
-    }
-    .contact a {
-      color: #3b2f2f;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    .contact a:hover {
-      text-decoration: underline;
-    }
-    footer {
-      background-color: #3b2f2f;
-      color: #d9cfc2;
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.9rem;
-    }
+    :root{--bg:#0f1113;--card:#111418;--muted:#9aa3a8;--accent:#bca56a;--glass:rgba(255,255,255,0.03)}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:linear-gradient(180deg,#0b0c0d 0%, #0f1113 100%);color:#e6eef1;min-height:100vh}
+    header{padding:2rem 1rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.03)}
+    header h1{margin:0;font-size:1.6rem;letter-spacing:0.6px}
+    header p{margin:.4rem 0 0;color:var(--muted)}
+    main{max-width:1100px;margin:2rem auto;padding:0 1rem}
+    .controls{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem}
+    .search{flex:1;min-width:180px}
+    input,select{background:var(--card);border:1px solid rgba(255,255,255,0.04);padding:.6rem .75rem;border-radius:8px;color:inherit}
+    button{background:var(--accent);border:none;padding:.6rem .9rem;border-radius:8px;color:#071013;font-weight:600;cursor:pointer}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.04));padding:1rem;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    .thumb{height:120px;border-radius:8px;overflow:hidden;background:var(--glass);display:flex;align-items:center;justify-content:center;margin-bottom:.75rem}
+    .thumb img{width:100%;height:100%;object-fit:cover}
+    .tags{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem}
+    .pill{background:rgba(255,255,255,0.03);padding:.25rem .5rem;border-radius:999px;font-size:.8rem;color:var(--muted)}
+    .meta{display:flex;justify-content:space-between;align-items:center;margin-top:.5rem}
+    .meta small{color:var(--muted)}
+    footer{text-align:center;padding:1.5rem 1rem;color:var(--muted);border-top:1px solid rgba(255,255,255,0.03);margin-top:2rem}
+    /* Age gate overlay */
+    #ageGate{position:fixed;inset:0;background:linear-gradient(180deg, rgba(4,6,8,0.95), rgba(4,6,8,0.98));display:flex;align-items:center;justify-content:center;z-index:9999}
+    #ageGate .box{max-width:520px;background:var(--card);padding:2rem;border-radius:12px;text-align:center;border:1px solid rgba(255,255,255,0.04)}
+    #ageGate h2{margin:0 0 .5rem}
+    #ageGate p{color:var(--muted);margin-bottom:1.2rem}
+    #ageGate .row{display:flex;gap:.5rem;justify-content:center}
+    /* strain modal */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.75));z-index:1000}
+    .modal .inner{background:var(--card);padding:1rem;border-radius:10px;max-width:760px;width:92%}
+    .modal .inner h3{margin:0}
+    @media (max-width:520px){header h1{font-size:1.2rem}.thumb{height:100px}}
   </style>
 </head>
 <body>
+  <div id="ageGate" role="dialog" aria-modal="true">
+    <div class="box">
+      <h2>Are you 19 or older?</h2>
+      <p>This site is for educational/demo purposes and intended for adults only. We do NOT sell products here. Local laws vary — always follow provincial regulations.</p>
+      <div class="row">
+        <button id="confirmAge">Yes — I'm 19+</button>
+        <button id="leave" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)">No — Exit</button>
+      </div>
+    </div>
+  </div>
 
   <header>
-    <h1>North Brew Coffee</h1>
-    <p>Small-batch craft coffee • Roasted with care</p>
+    <h1>The TopShelf Shop</h1>
+    <p>Strain catalog — informational demo. No sales here. Always follow local law.</p>
   </header>
 
   <main>
-    <section id="about">
-      <h2>About</h2>
-      <p>
-        Welcome to <strong>North Brew Coffee</strong> — a local roaster dedicated to delivering premium small-batch coffee with bold flavour and smooth finish.
-        We take pride in transparency, quality, and consistency in every roast.
-      </p>
+    <div class="controls">
+      <input class="search" id="search" placeholder="Search strains, effects, or notes" />
+      <select id="typeFilter"><option value="all">All types</option><option value="indica">Indica</option><option value="sativa">Sativa</option><option value="hybrid">Hybrid</option></select>
+      <select id="thcFilter"><option value="any">Any THC</option><option value="low">Low &lt;10%</option><option value="med">10–20%</option><option value="high">20%+</option></select>
+      <button id="reset">Reset</button>
+    </div>
+
+    <section class="grid" id="catalog">
+      <!-- Cards injected by JS -->
     </section>
 
-    <section id="products">
-      <h2>Our Coffee</h2>
-      <table class="product-table">
-        <tr>
-          <th>Size</th>
-          <th>Price</th>
-          <th>Description</th>
-        </tr>
-        <tr>
-          <td>3.5 g</td>
-          <td>$35</td>
-          <td>Perfect for sampling our rich roast — smooth, balanced, and aromatic.</td>
-        </tr>
-        <tr>
-          <td>7 g</td>
-          <td>$65</td>
-          <td>Ideal for sharing or enjoying over a few days of pure energy.</td>
-        </tr>
-      </table>
-    </section>
-
-    <section id="contact" class="contact">
-      <h2>Contact</h2>
-      <p>
-        Have a question or want to place an order?<br />
-        Email us at <a href="mailto:info@northbrewcoffee.com">info@northbrewcoffee.com</a><br />
-        or find us on Instagram: <a href="https://instagram.com/northbrewcoffee" target="_blank">@northbrewcoffee</a>
-      </p>
-    </section>
+    <footer>
+      <small>Demo site for The TopShelf Shop — informational only. This site does not facilitate purchase or distribution. &copy; The TopShelf Shop</small>
+    </footer>
   </main>
 
-  <footer>
-    <p>&copy; 2025 North Brew Coffee. All rights reserved.</p>
-  </footer>
+  <div class="modal" id="modal">
+    <div class="inner">
+      <h3 id="m-title">Strain name</h3>
+      <p id="m-desc"></p>
+      <p id="m-notes" style="color:var(--muted)"></p>
+      <div style="text-align:right;margin-top:.75rem"><button id="closeModal">Close</button></div>
+    </div>
+  </div>
 
+  <script>
+    // Sample strain data — replace/extend as you like
+    const strains = [
+      {id:1,name:'Blue Dream',image:'sample.png',type:'hybrid',thc:18,cbd:0.1,flavour:'Berry, Sweet',effects:'Relaxed, Happy',desc:'Balanced hybrid with creative and relaxed effects. Popular for daytime use.'},
+      {id:2,name:'OG Kush',image:'og-kush.jpg',type:'indica',thc:22,cbd:0.2,flavour:'Earthy, Pine',effects:'Euphoric, Relaxed',desc:'Classic heavy-hitting strain with pungent aroma and strong body effects.'},
+      {id:3,name:'Sour Diesel',image:'sample.png',type:'sativa',thc:19,cbd:0.05,flavour:'Diesel, Citrus',effects:'Energetic, Focused',desc:'Fast-acting sativa known for an uplifting, cerebral high.'},
+      {id:4,name:'Northern Lights',image:'sample.png',type:'indica',thc:16,cbd:0.2,flavour:'Sweet, Spicy',effects:'Sleepy, Relaxed',desc:'Smooth indica with calming effects — good for evening.'},
+      {id:5,name:'Girl Scout Cookies',image:'sample.png',type:'hybrid',thc:24,cbd:0.1,flavour:'Sweet, Earthy',effects:'Happy, Relaxed',desc:'Potent hybrid with a signature sweet and earthy profile.'},
+      {id:6,name:'Harlequin',image:'sample.png',type:'sativa',thc:7,cbd:8,flavour:'Woody, Mango',effects:'Clear-headed, Relaxing',desc:'High-CBD strain used for daytime symptom relief without heavy intoxication.'}
+    ];
+
+    const catalog = document.getElementById('catalog');
+    const search = document.getElementById('search');
+    const typeFilter = document.getElementById('typeFilter');
+    const thcFilter = document.getElementById('thcFilter');
+    const reset = document.getElementById('reset');
+
+    function render(list){
+      catalog.innerHTML = '';
+      if(!list.length){catalog.innerHTML = '<p style="color:var(--muted)">No strains match your filters.</p>';return}
+      list.forEach(s => {
+        const card = document.createElement('article');card.className='card';
+        card.innerHTML = `
+          <div class="thumb"><img alt="${s.name} photo" src="images/${s.image}"></div>
+          <h3 style="margin:0">${s.name}</h3>
+          <div class="tags">
+            <div class="pill">${s.type.toUpperCase()}</div>
+            <div class="pill">THC: ${s.thc}%</div>
+            <div class="pill">CBD: ${s.cbd}%</div>
+          </div>
+          <p style="margin:.6rem 0 .2rem;color:var(--muted);font-size:.95rem">${s.flavour} • ${s.effects}</p>
+          <div class="meta"><small>${s.desc}</small><button data-id="${s.id}">Details</button></div>
+        `;
+        catalog.appendChild(card);
+      });
+    }
+
+    function applyFilters(){
+      const q = search.value.trim().toLowerCase();
+      const type = typeFilter.value;
+      const thc = thcFilter.value;
+      let out = strains.filter(s => {
+        if(type!=='all' && s.type!==type) return false;
+        if(thc==='low' && !(s.thc < 10)) return false;
+        if(thc==='med' && !(s.thc >=10 && s.thc <=20)) return false;
+        if(thc==='high' && !(s.thc >20)) return false;
+        if(!q) return true;
+        const hay = `${s.name} ${s.desc} ${s.flavour} ${s.effects}`.toLowerCase();
+        return hay.includes(q);
+      });
+      render(out);
+    }
+
+    // events
+    search.addEventListener('input',applyFilters);
+    typeFilter.addEventListener('change',applyFilters);
+    thcFilter.addEventListener('change',applyFilters);
+    reset.addEventListener('click',()=>{search.value='';typeFilter.value='all';thcFilter.value='any';applyFilters()});
+
+    // details modal
+    document.body.addEventListener('click',e=>{
+      const id = e.target.getAttribute('data-id');
+      if(id){
+        const s = strains.find(x=>x.id==id);
+        document.getElementById('m-title').textContent = s.name + ' — ' + s.type.toUpperCase();
+        document.getElementById('m-desc').textContent = s.desc;
+        document.getElementById('m-notes').textContent = `Flavour: ${s.flavour} · Effects: ${s.effects} · THC: ${s.thc}% · CBD: ${s.cbd}%`;
+        document.getElementById('modal').style.display='flex';
+      }
+    });
+    document.getElementById('closeModal').addEventListener('click',()=>document.getElementById('modal').style.display='none');
+
+    // age gate
+    document.getElementById('confirmAge').addEventListener('click',()=>{
+      localStorage.setItem('topShelfAge',Date.now());document.getElementById('ageGate').style.display='none';
+    });
+    document.getElementById('leave').addEventListener('click',()=>{window.location.href='about:blank'});
+    if(localStorage.getItem('topShelfAge')) document.getElementById('ageGate').style.display='none';
+
+    // initial render
+    render(strains);
+  </script>
 </body>
 </html>
