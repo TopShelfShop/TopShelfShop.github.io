@@ -1,195 +1,629 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>The TopShelf Shop — Strain Catalog (Info Only)</title>
-  <meta name="description" content="The TopShelf Shop — informational catalog of cannabis strains. This site is for educational and demo purposes only." />
-  <style>
-    :root{--bg:#0f1113;--card:#111418;--muted:#9aa3a8;--accent:#bca56a;--glass:rgba(255,255,255,0.03)}
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:linear-gradient(180deg,#0b0c0d 0%, #0f1113 100%);color:#e6eef1;min-height:100vh}
-    header{padding:2rem 1rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.03)}
-    header h1{margin:0;font-size:1.6rem;letter-spacing:0.6px}
-    header p{margin:.4rem 0 0;color:var(--muted)}
-    main{max-width:1100px;margin:2rem auto;padding:0 1rem}
-    .controls{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem}
-    .search{flex:1;min-width:180px}
-    input,select{background:var(--card);border:1px solid rgba(255,255,255,0.04);padding:.6rem .75rem;border-radius:8px;color:inherit}
-    button{background:var(--accent);border:none;padding:.6rem .9rem;border-radius:8px;color:#071013;font-weight:600;cursor:pointer}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem}
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.04));padding:1rem;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
-    .thumb{height:120px;border-radius:8px;overflow:hidden;background:var(--glass);display:flex;align-items:center;justify-content:center;margin-bottom:.75rem}
-    .thumb img{width:100%;height:100%;object-fit:cover}
-    .tags{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem}
-    .pill{background:rgba(255,255,255,0.03);padding:.25rem .5rem;border-radius:999px;font-size:.8rem;color:var(--muted)}
-    .meta{display:flex;justify-content:space-between;align-items:center;margin-top:.5rem}
-    .meta small{color:var(--muted)}
-    footer{text-align:center;padding:1.5rem 1rem;color:var(--muted);border-top:1px solid rgba(255,255,255,0.03);margin-top:2rem}
-    /* Age gate overlay */
-    #ageGate{position:fixed;inset:0;background:linear-gradient(180deg, rgba(4,6,8,0.95), rgba(4,6,8,0.98));display:flex;align-items:center;justify-content:center;z-index:9999}
-    #ageGate .box{max-width:520px;background:var(--card);padding:2rem;border-radius:12px;text-align:center;border:1px solid rgba(255,255,255,0.04)}
-    #ageGate h2{margin:0 0 .5rem}
-    #ageGate p{color:var(--muted);margin-bottom:1.2rem}
-    #ageGate .row{display:flex;gap:.5rem;justify-content:center}
-    /* strain modal */
-    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.75));z-index:1000}
-    .modal .inner{background:var(--card);padding:1rem;border-radius:10px;max-width:760px;width:92%}
-    .modal .inner h3{margin:0}
-    @media (max-width:520px){header h1{font-size:1.2rem}.thumb{height:100px}}
-    .modal button {
-      background: var(--accent);
-      border: none;
-      padding: .5rem .9rem;
-      border-radius: 8px;
-      color: #071013;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    .modal { opacity: 0; transition: opacity .25s ease; pointer-events: none; }
-    .modal.show { opacity: 1; pointer-events: auto; }
-    .ig {
-      margin-top: .75rem;
-    } 
-    .ig a {
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 600;
-      font-size: .95rem;
-    }
-    .ig a:hover {
-      text-decoration: underline;
-    }
-  </style>
-</head>
-<body>
-  <div id="ageGate" role="dialog" aria-modal="true">
-    <div class="box">
-      <h2>Are you 19 or older?</h2>
-      <p>This site is for educational/demo purposes and intended for adults only. We do NOT sell products here. Local laws vary — always follow provincial regulations.</p>
-      <div class="row">
-        <button id="confirmAge">Yes — I'm 19+</button>
-        <button id="leave" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)">No — Exit</button>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>The TopShelf Shop — Strain Catalog (Info Only)</title>
+    <meta
+      name="description"
+      content="The TopShelf Shop — strain catalog highlighting aromas, effects, and tasting notes."
+    />
+
+    <style>
+      :root {
+        --bg: #0f1113;
+        --card: #111418;
+        --muted: #9aa3a8;
+        --accent: #bca56a;
+        --glass: rgba(255, 255, 255, 0.03);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+        background: linear-gradient(180deg, #0b0c0d 0%, #0f1113 100%);
+        color: #e6eef1;
+        min-height: 100vh;
+      }
+
+      header {
+        padding: 2rem 1rem;
+        text-align: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 1.6rem;
+        letter-spacing: 0.6px;
+      }
+
+      header p {
+        margin: 0.4rem 0 0;
+        color: var(--muted);
+      }
+
+      main {
+        max-width: 1100px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+      }
+
+      .controls {
+        display: none;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      .controls.show {
+        display: flex;
+      }
+
+      #toggleControls {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 100;
+      }
+
+      .gallery {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      .gallery img {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+        border-radius: 0;
+      }
+
+      .search {
+        flex: 1;
+        min-width: 180px;
+      }
+
+      input,
+      select {
+        background: var(--card);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        padding: 0.6rem 0.75rem;
+        border-radius: 8px;
+        color: inherit;
+      }
+
+      button {
+        background: var(--accent);
+        border: none;
+        padding: 0.6rem 0.9rem;
+        border-radius: 8px;
+        color: #071013;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .grid {
+        display: none;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 1rem;
+      }
+
+      .grid.show {
+        display: grid;
+      }
+
+      .card {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.04));
+        padding: 1rem;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+      }
+
+      .thumb {
+        height: 120px;
+        border-radius: 8px;
+        overflow: hidden;
+        background: var(--glass);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0.75rem;
+      }
+
+      .thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .tags {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin-top: 0.5rem;
+      }
+
+      .pill {
+        background: rgba(255, 255, 255, 0.03);
+        padding: 0.25rem 0.5rem;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        color: var(--muted);
+      }
+
+      .meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 0.5rem;
+      }
+
+      .meta small {
+        color: var(--muted);
+      }
+
+      footer {
+        text-align: center;
+        padding: 1.5rem 1rem;
+        color: var(--muted);
+        border-top: 1px solid rgba(255, 255, 255, 0.03);
+        margin-top: 2rem;
+      }
+
+      /* Age gate overlay */
+      #ageGate {
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(4, 6, 8, 0.95), rgba(4, 6, 8, 0.98));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+      }
+
+      #ageGate .box {
+        max-width: 520px;
+        background: var(--card);
+        padding: 2rem;
+        border-radius: 12px;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+      }
+
+      #ageGate h2 {
+        margin: 0 0 0.5rem;
+      }
+
+      #ageGate p {
+        color: var(--muted);
+        margin-bottom: 1.2rem;
+      }
+
+      #ageGate .row {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+      }
+
+      /* strain modal */
+      .modal {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.75));
+        z-index: 1000;
+      }
+
+      .modal .inner {
+        background: var(--card);
+        padding: 1rem;
+        border-radius: 10px;
+        max-width: 760px;
+        width: 92%;
+      }
+
+      .modal .inner h3 {
+        margin: 0;
+      }
+
+      @media (max-width: 520px) {
+        header h1 {
+          font-size: 1.2rem;
+        }
+
+        .thumb {
+          height: 100px;
+        }
+      }
+
+      .modal button {
+        background: var(--accent);
+        border: none;
+        padding: 0.5rem 0.9rem;
+        border-radius: 8px;
+        color: #071013;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .card button {
+        display: none;
+      }
+
+      .modal {
+        opacity: 0;
+        transition: opacity 0.25s ease;
+        pointer-events: none;
+      }
+
+      .modal.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .ig {
+        margin-top: 0.75rem;
+      }
+
+      .ig a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+
+      .ig a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="ageGate" role="dialog" aria-modal="true">
+      <div class="box">
+        <h2>Welcome to the catalog</h2>
+        <p>Discover strain profiles, tasting notes, and common effects in a clean, friendly format.</p>
+        <div class="row">
+          <button id="confirmAge">Enter</button>
+          <button
+            id="leave"
+            style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)"
+          >
+            Exit
+          </button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <header>
-    <h1>The TopShelf Shop</h1>
-    <p>Strain catalog — informational demo. No sales here. Always follow local law.</p>
-    <div class="ig">
-    <a href="https://instagram.com/YOUR_USERNAME" target="_blank">@YOUR_USERNAME</a>
-</div>
+    <header>
+      <h1>The TopShelf Shop</h1>
+      <p>Strain catalog — explore profiles, flavours, and effects.</p>
 
-  </header>
+      <div class="ig">
+        <a href="https://instagram.com/quneeds2.0" target="_blank">@quneeds2.0</a>
+      </div>
+    </header>
 
-  <main>
-    <div class="controls">
-      <input class="search" id="search" placeholder="Search strains, effects, or notes" />
-      <select id="typeFilter"><option value="all">All types</option><option value="indica">Indica</option><option value="sativa">Sativa</option><option value="hybrid">Hybrid</option></select>
-      <select id="thcFilter"><option value="any">Any THC</option><option value="low">Low &lt;10%</option><option value="med">10–20%</option><option value="high">20%+</option></select>
-      <button id="reset">Reset</button>
+    <main>
+      <button id="toggleControls">Show Controls</button>
+
+      <div class="controls">
+        <input class="search" id="search" placeholder="Search strains, effects, products, or notes" />
+
+        <select id="viewFilter">
+          <option value="both">View: Both</option>
+          <option value="strains">Strains</option>
+          <option value="products">Products</option>
+        </select>
+
+        <select id="typeFilter">
+          <option value="all">All types</option>
+          <option value="indica">Indica</option>
+          <option value="sativa">Sativa</option>
+          <option value="hybrid">Hybrid</option>
+        </select>
+
+        <select id="thcFilter">
+          <option value="any">Any THC</option>
+          <option value="low">Low &lt;10%</option>
+          <option value="med">10–20%</option>
+          <option value="high">20%+</option>
+        </select>
+
+        <button id="reset">Reset</button>
+      </div>
+
+      <div class="gallery">
+        <img src="images/IMG_3071.JPG" alt="Gallery image" />
+      </div>
+
+      <section class="grid" id="catalog">
+        <!-- Cards injected by JS -->
+      </section>
+
+      <footer>
+        <small>
+          The TopShelf Shop — showcasing products and strains. &copy; The TopShelf Shop
+        </small>
+      </footer>
+    </main>
+
+    <div class="modal" id="modal">
+      <div class="inner">
+        <h3 id="m-title">Strain name</h3>
+        <p id="m-desc"></p>
+        <p id="m-notes" style="color:var(--muted)"></p>
+        <div style="text-align:right;margin-top:.75rem">
+          <button id="closeModal">Close</button>
+        </div>
+      </div>
     </div>
 
-    <section class="grid" id="catalog">
-      <!-- Cards injected by JS -->
-    </section>
+    <script>
+      // Sample strain data — replace/extend as you like
+      const strains = [
+        {
+          id: 1,
+          name: 'Blue Dream',
+          image: 'sample.png',
+          type: 'hybrid',
+          thc: 18,
+          cbd: 0.1,
+          flavour: 'Berry, Sweet',
+          effects: 'Relaxed, Happy',
+          desc: 'Balanced hybrid with creative and relaxed effects. Popular for daytime use.'
+        },
+        {
+          id: 2,
+          name: 'OG Kush',
+          image: 'og-kush.jpg',
+          type: 'indica',
+          thc: 22,
+          cbd: 0.2,
+          flavour: 'Earthy, Pine',
+          effects: 'Euphoric, Relaxed',
+          desc: 'Classic heavy-hitting strain with pungent aroma and strong body effects.'
+        },
+        {
+          id: 3,
+          name: 'Sour Diesel',
+          image: 'sample.png',
+          type: 'sativa',
+          thc: 19,
+          cbd: 0.05,
+          flavour: 'Diesel, Citrus',
+          effects: 'Energetic, Focused',
+          desc: 'Fast-acting sativa known for an uplifting, cerebral high.'
+        },
+        {
+          id: 4,
+          name: 'Northern Lights',
+          image: 'sample.png',
+          type: 'indica',
+          thc: 16,
+          cbd: 0.2,
+          flavour: 'Sweet, Spicy',
+          effects: 'Sleepy, Relaxed',
+          desc: 'Smooth indica with calming effects — good for evening.'
+        },
+        {
+          id: 5,
+          name: 'Girl Scout Cookies',
+          image: 'sample.png',
+          type: 'hybrid',
+          thc: 24,
+          cbd: 0.1,
+          flavour: 'Sweet, Earthy',
+          effects: 'Happy, Relaxed',
+          desc: 'Potent hybrid with a signature sweet and earthy profile.'
+        },
+        {
+          id: 6,
+          name: 'Harlequin',
+          image: 'sample.png',
+          type: 'sativa',
+          thc: 7,
+          cbd: 8,
+          flavour: 'Woody, Mango',
+          effects: 'Clear-headed, Relaxing',
+          desc: 'High-CBD strain used for daytime symptom relief without heavy intoxication.'
+        }
+      ];
 
-    <footer>
-      <small>Demo site for The TopShelf Shop — informational only. This site does not facilitate purchase or distribution. &copy; The TopShelf Shop</small>
-    </footer>
-  </main>
+      // Placeholder products (temporary)
+      const products = [
+        {
+          id: 101,
+          name: 'TopShelf Logo T‑Shirt',
+          image: 'product-tshirt.jpg',
+          category: 'Merch',
+          price: '$24.00',
+          desc: 'Comfortable cotton tee with the TopShelf logo.'
+        },
+        {
+          id: 102,
+          name: 'Branded Rolling Tray',
+          image: 'product-tray.jpg',
+          category: 'Accessory',
+          price: '$18.00',
+          desc: 'Durable metal rolling tray with logo.'
+        },
+        {
+          id: 103,
+          name: 'Herbal Tea Sampler',
+          image: 'product-tea.jpg',
+          category: 'Wellness',
+          price: '$12.50',
+          desc: 'A calming blend of herbs and botanicals.'
+        }
+      ];
 
-  <div class="modal" id="modal">
-    <div class="inner">
-      <h3 id="m-title">Strain name</h3>
-      <p id="m-desc"></p>
-      <p id="m-notes" style="color:var(--muted)"></p>
-      <div style="text-align:right;margin-top:.75rem"><button id="closeModal">Close</button></div>
-    </div>
-  </div>
+      const catalog = document.getElementById('catalog');
+      const search = document.getElementById('search');
+      const viewFilter = document.getElementById('viewFilter');
+      const typeFilter = document.getElementById('typeFilter');
+      const thcFilter = document.getElementById('thcFilter');
+      const reset = document.getElementById('reset');
+      const toggleControls = document.getElementById('toggleControls');
+      const controls = document.querySelector('.controls');
+      const grid = document.getElementById('catalog');
 
-  <script>
-    // Sample strain data — replace/extend as you like
-    const strains = [
-      {id:1,name:'Blue Dream',image:'sample.png',type:'hybrid',thc:18,cbd:0.1,flavour:'Berry, Sweet',effects:'Relaxed, Happy',desc:'Balanced hybrid with creative and relaxed effects. Popular for daytime use.'},
-      {id:2,name:'OG Kush',image:'og-kush.jpg',type:'indica',thc:22,cbd:0.2,flavour:'Earthy, Pine',effects:'Euphoric, Relaxed',desc:'Classic heavy-hitting strain with pungent aroma and strong body effects.'},
-      {id:3,name:'Sour Diesel',image:'sample.png',type:'sativa',thc:19,cbd:0.05,flavour:'Diesel, Citrus',effects:'Energetic, Focused',desc:'Fast-acting sativa known for an uplifting, cerebral high.'},
-      {id:4,name:'Northern Lights',image:'sample.png',type:'indica',thc:16,cbd:0.2,flavour:'Sweet, Spicy',effects:'Sleepy, Relaxed',desc:'Smooth indica with calming effects — good for evening.'},
-      {id:5,name:'Girl Scout Cookies',image:'sample.png',type:'hybrid',thc:24,cbd:0.1,flavour:'Sweet, Earthy',effects:'Happy, Relaxed',desc:'Potent hybrid with a signature sweet and earthy profile.'},
-      {id:6,name:'Harlequin',image:'sample.png',type:'sativa',thc:7,cbd:8,flavour:'Woody, Mango',effects:'Clear-headed, Relaxing',desc:'High-CBD strain used for daytime symptom relief without heavy intoxication.'}
-    ];
+      function render(list) {
+        catalog.innerHTML = '';
 
-    const catalog = document.getElementById('catalog');
-    const search = document.getElementById('search');
-    const typeFilter = document.getElementById('typeFilter');
-    const thcFilter = document.getElementById('thcFilter');
-    const reset = document.getElementById('reset');
+        if (!list.length) {
+          catalog.innerHTML = '<p style="color:var(--muted)">No items match your filters.</p>';
+          return;
+        }
 
-    function render(list){
-      catalog.innerHTML = '';
-      if(!list.length){catalog.innerHTML = '<p style="color:var(--muted)">No strains match your filters.</p>';return}
-      list.forEach(s => {
-        const card = document.createElement('article');card.className='card';
-        card.innerHTML = `
-          <div class="thumb"><img alt="${s.name} photo" src="images/${s.image}"></div>
-          <h3 style="margin:0">${s.name}</h3>
-          <div class="tags">
-            <div class="pill">${s.type.toUpperCase()}</div>
-            <div class="pill">THC: ${s.thc}%</div>
-            <div class="pill">CBD: ${s.cbd}%</div>
-          </div>
-          <p style="margin:.6rem 0 .2rem;color:var(--muted);font-size:.95rem">${s.flavour} • ${s.effects}</p>
-          <div class="meta"><small>${s.desc}</small><button data-id="${s.id}">Details</button></div>
-        `;
-        catalog.appendChild(card);
-      });
-    }
+        list.forEach((s) => {
+          const card = document.createElement('article');
+          card.className = 'card';
 
-    function applyFilters(){
-      const q = search.value.trim().toLowerCase();
-      const type = typeFilter.value;
-      const thc = thcFilter.value;
-      let out = strains.filter(s => {
-        if(type!=='all' && s.type!==type) return false;
-        if(thc==='low' && !(s.thc < 10)) return false;
-        if(thc==='med' && !(s.thc >=10 && s.thc <=20)) return false;
-        if(thc==='high' && !(s.thc >20)) return false;
-        if(!q) return true;
-        const hay = `${s.name} ${s.desc} ${s.flavour} ${s.effects}`.toLowerCase();
-        return hay.includes(q);
-      });
-      render(out);
-    }
+          if (s.kind === 'product') {
+            card.innerHTML = `
+              <div class="thumb"><img alt="${s.name} photo" src="images/${s.image}"></div>
+              <h3 style="margin:0">${s.name}</h3>
+              <div class="tags">
+                <div class="pill">${s.category}</div>
+                <div class="pill">Price: ${s.price}</div>
+              </div>
+              <p style="margin:.6rem 0 .2rem;color:var(--muted);font-size:.95rem">${s.desc}</p>
+              <div class="meta"><small></small><button data-id="${s.id}">Details</button></div>
+            `;
+          } else {
+            card.innerHTML = `
+              <div class="thumb"><img alt="${s.name} photo" src="images/${s.image}"></div>
+              <h3 style="margin:0">${s.name}</h3>
+              <div class="tags">
+                <div class="pill">${s.type.toUpperCase()}</div>
+                <div class="pill">THC: ${s.thc}%</div>
+                <div class="pill">CBD: ${s.cbd}%</div>
+              </div>
+              <p style="margin:.6rem 0 .2rem;color:var(--muted);font-size:.95rem">${s.flavour} • ${s.effects}</p>
+              <div class="meta"><small>${s.desc}</small><button data-id="${s.id}">Details</button></div>
+            `;
+          }
 
-    // events
-    search.addEventListener('input',applyFilters);
-    typeFilter.addEventListener('change',applyFilters);
-    thcFilter.addEventListener('change',applyFilters);
-    reset.addEventListener('click',()=>{search.value='';typeFilter.value='all';thcFilter.value='any';applyFilters()});
-
-    // details modal
-    document.body.addEventListener('click',e=>{
-      const id = e.target.getAttribute('data-id');
-      if(id){
-        const s = strains.find(x=>x.id==id);
-        document.getElementById('m-title').textContent = s.name + ' — ' + s.type.toUpperCase();
-        document.getElementById('m-desc').textContent = s.desc;
-        document.getElementById('m-notes').textContent = `Flavour: ${s.flavour} · Effects: ${s.effects} · THC: ${s.thc}% · CBD: ${s.cbd}%`;
-        document.getElementById('modal').style.display='flex';
+          catalog.appendChild(card);
+        });
       }
-    });
-    document.getElementById('closeModal').addEventListener('click',()=>document.getElementById('modal').style.display='none');
 
-    // age gate
-    document.getElementById('confirmAge').addEventListener('click',()=>{
-      localStorage.setItem('topShelfAge',Date.now());document.getElementById('ageGate').style.display='none';
-    });
-    document.getElementById('leave').addEventListener('click',()=>{window.location.href='about:blank'});
-    if(localStorage.getItem('topShelfAge')) document.getElementById('ageGate').style.display='none';
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const view = viewFilter.value;
+        const type = typeFilter.value;
+        const thc = thcFilter.value;
 
-    // initial render
-    render(strains);
-  </script>
-</body>
+        let pool = [];
+        if (view === 'strains') pool = strains.map((s) => ({ ...s, kind: 'strain' }));
+        else if (view === 'products') pool = products.map((p) => ({ ...p, kind: 'product' }));
+        else pool = strains.map((s) => ({ ...s, kind: 'strain' })).concat(products.map((p) => ({ ...p, kind: 'product' })));
+
+        const out = pool.filter((item) => {
+          if (item.kind === 'strain') {
+            if (type !== 'all' && item.type !== type) return false;
+            if (thc === 'low' && !(item.thc < 10)) return false;
+            if (thc === 'med' && !(item.thc >= 10 && item.thc <= 20)) return false;
+            if (thc === 'high' && !(item.thc > 20)) return false;
+          }
+
+          if (!q) return true;
+
+          const hay = (
+            (item.name || '') +
+            ' ' +
+            (item.desc || '') +
+            ' ' +
+            (item.flavour || '') +
+            ' ' +
+            (item.effects || '') +
+            ' ' +
+            (item.category || '') +
+            ' ' +
+            (item.price || '')
+          ).toLowerCase();
+
+          return hay.includes(q);
+        });
+
+        render(out);
+      }
+
+      // events
+      search.addEventListener('input', applyFilters);
+      viewFilter.addEventListener('change', applyFilters);
+      typeFilter.addEventListener('change', applyFilters);
+      thcFilter.addEventListener('change', applyFilters);
+      reset.addEventListener('click', () => {
+        search.value = '';
+        viewFilter.value = 'both';
+        typeFilter.value = 'all';
+        thcFilter.value = 'any';
+        applyFilters();
+      });
+
+      // toggle controls and grid visibility
+      toggleControls.addEventListener('click', () => {
+        const isShown = controls.classList.toggle('show');
+        grid.classList.toggle('show');
+        toggleControls.textContent = isShown ? 'Hide Controls' : 'Show Controls';
+      });
+
+      // details modal (works for strains and products)
+      document.body.addEventListener('click', (e) => {
+        const id = e.target.getAttribute('data-id');
+        if (!id) return;
+
+        let s = strains.find((x) => x.id == id);
+        let kind = 'strain';
+        if (!s) {
+          s = products.find((x) => x.id == id);
+          kind = 'product';
+        }
+        if (!s) return;
+
+        if (kind === 'strain') {
+          document.getElementById('m-title').textContent = s.name + ' — ' + s.type.toUpperCase();
+          document.getElementById('m-desc').textContent = s.desc;
+          document.getElementById('m-notes').textContent = `Flavour: ${s.flavour} · Effects: ${s.effects} · THC: ${s.thc}% · CBD: ${s.cbd}%`;
+        } else {
+          document.getElementById('m-title').textContent = s.name + ' — ' + s.category;
+          document.getElementById('m-desc').textContent = s.desc;
+          document.getElementById('m-notes').textContent = `Category: ${s.category} · Price: ${s.price}`;
+        }
+
+        document.getElementById('modal').style.display = 'flex';
+      });
+
+      document.getElementById('closeModal').addEventListener('click', () => document.getElementById('modal').style.display = 'none');
+
+      // age gate
+      document.getElementById('confirmAge').addEventListener('click', () => {
+        localStorage.setItem('topShelfAge', Date.now());
+        document.getElementById('ageGate').style.display = 'none';
+      });
+
+      document.getElementById('leave').addEventListener('click', () => {
+        window.location.href = 'about:blank';
+      });
+
+      if (localStorage.getItem('topShelfAge')) document.getElementById('ageGate').style.display = 'none';
+
+      // initial render
+      applyFilters();
+    </script>
+  </body>
 </html>
