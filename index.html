@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>The TopShelf Shop — Strain Catalog (Info Only)</title>
+    <title>The TopShelf Shop — Product Catalog</title>
     <meta
       name="description"
-      content="The TopShelf Shop — strain catalog highlighting aromas, effects, and tasting notes."
+      content="The TopShelf Shop — product catalog highlighting aromas, effects, and tasting notes."
     />
 
     <style>
@@ -86,6 +86,19 @@
         height: auto;
         object-fit: contain;
         border-radius: 0;
+      }
+
+      /* Responsive: side-by-side on wide screens */
+      @media (min-width: 900px) {
+        .gallery {
+          flex-direction: row;
+          align-items: flex-start;
+        }
+
+        .gallery img {
+          width: 50%;
+          height: auto;
+        }
       }
 
       .search {
@@ -346,7 +359,8 @@
       </div>
 
       <div class="gallery">
-        <img src="images/IMG_3071.JPG" alt="Gallery image" />
+        <img src="images/IMG_3071.JPG" alt="Main image" />
+        <img src="images/New%20Project.jpg" alt="Project image" />
       </div>
 
       <section class="grid" id="catalog">
