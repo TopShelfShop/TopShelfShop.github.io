@@ -3,11 +3,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>The TopShelf Shop — Product Catalog</title>
+    <title>Top-Shelf-Shop: Product Catalog</title>
     <meta
       name="description"
-      content="The TopShelf Shop — product catalog highlighting aromas, effects, and tasting notes."
+      content="Top-Shelf-Shop — product catalog highlighting aromas, effects, and tasting notes."
     />
+    <!-- favicon / browser tab icon -->
+    <link rel="icon" type="image/png" href="images/theTopShelfLogo.png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="images/theTopShelfLogo.png" />
+    <meta name="theme-color" content="#0f1113" />
 
     <style>
       :root {
@@ -42,6 +46,13 @@
         letter-spacing: 0.6px;
       }
 
+      #siteLogo {
+        display: block;
+        height: 56px;
+        margin: 0 auto 0.5rem;
+        object-fit: contain;
+      }
+
       header p {
         margin: 0.4rem 0 0;
         color: var(--muted);
@@ -70,6 +81,7 @@
         top: 1rem;
         right: 1rem;
         z-index: 100;
+        display: none; /* hidden per user request; toggle remains in DOM */
       }
 
       .gallery {
@@ -321,7 +333,7 @@
     </div>
 
     <header>
-      <h1>The TopShelf Shop</h1>
+      <h1>Top-Shelf-Shop</h1>
       <p>Strain catalog — explore profiles, flavours, and effects.</p>
 
       <div class="ig">
@@ -369,7 +381,7 @@
 
       <footer>
         <small>
-          The TopShelf Shop — showcasing products and strains. &copy; The TopShelf Shop
+          Top-Shelf-Shop — showcasing products and strains. &copy; Top-Shelf-Shop
         </small>
       </footer>
     </main>
@@ -460,11 +472,11 @@
       const products = [
         {
           id: 101,
-          name: 'TopShelf Logo T‑Shirt',
+          name: 'Top Shelf Logo T‑Shirt',
           image: 'product-tshirt.jpg',
           category: 'Merch',
           price: '$24.00',
-          desc: 'Comfortable cotton tee with the TopShelf logo.'
+          desc: 'Comfortable cotton tee with the Top Shelf logo.'
         },
         {
           id: 102,
