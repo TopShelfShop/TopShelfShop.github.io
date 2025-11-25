@@ -205,40 +205,7 @@
         margin-top: 2rem;
       }
 
-      /* Age gate overlay */
-      #ageGate {
-        position: fixed;
-        inset: 0;
-        background: linear-gradient(180deg, rgba(4, 6, 8, 0.95), rgba(4, 6, 8, 0.98));
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 9999;
-      }
-
-      #ageGate .box {
-        max-width: 520px;
-        background: var(--card);
-        padding: 2rem;
-        border-radius: 12px;
-        text-align: center;
-        border: 1px solid rgba(255, 255, 255, 0.04);
-      }
-
-      #ageGate h2 {
-        margin: 0 0 0.5rem;
-      }
-
-      #ageGate p {
-        color: var(--muted);
-        margin-bottom: 1.2rem;
-      }
-
-      #ageGate .row {
-        display: flex;
-        gap: 0.5rem;
-        justify-content: center;
-      }
+      /* Age gate removed */
 
       /* strain modal */
       .modal {
@@ -316,21 +283,7 @@
   </head>
 
   <body>
-    <div id="ageGate" role="dialog" aria-modal="true">
-      <div class="box">
-        <h2>Welcome to the catalog</h2>
-        <p>Discover strain profiles, tasting notes, and common effects in a clean, friendly format.</p>
-        <div class="row">
-          <button id="confirmAge">Enter</button>
-          <button
-            id="leave"
-            style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)"
-          >
-            Exit
-          </button>
-        </div>
-      </div>
-    </div>
+    <!-- age gate removed per user request -->
 
     <header>
       <h1>Top-Shelf-Shop</h1>
@@ -372,7 +325,7 @@
 
       <div class="gallery">
         <img src="images/IMG_3071.JPG" alt="Main image" />
-        <img src="images/New%20Project.jpg" alt="Project image" />
+        <img src="images/zpodsAndOvns.png" alt="Project image" />
       </div>
 
       <section class="grid" id="catalog">
@@ -636,17 +589,7 @@
 
       document.getElementById('closeModal').addEventListener('click', () => document.getElementById('modal').style.display = 'none');
 
-      // age gate
-      document.getElementById('confirmAge').addEventListener('click', () => {
-        localStorage.setItem('topShelfAge', Date.now());
-        document.getElementById('ageGate').style.display = 'none';
-      });
-
-      document.getElementById('leave').addEventListener('click', () => {
-        window.location.href = 'about:blank';
-      });
-
-      if (localStorage.getItem('topShelfAge')) document.getElementById('ageGate').style.display = 'none';
+      // age gate removed — no age check or localStorage key
 
       // initial render
       applyFilters();
