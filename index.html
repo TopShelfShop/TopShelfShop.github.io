@@ -37,6 +37,29 @@
     .modal .inner{background:var(--card);padding:1rem;border-radius:10px;max-width:760px;width:92%}
     .modal .inner h3{margin:0}
     @media (max-width:520px){header h1{font-size:1.2rem}.thumb{height:100px}}
+    .modal button {
+      background: var(--accent);
+      border: none;
+      padding: .5rem .9rem;
+      border-radius: 8px;
+      color: #071013;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .modal { opacity: 0; transition: opacity .25s ease; pointer-events: none; }
+    .modal.show { opacity: 1; pointer-events: auto; }
+    .ig {
+      margin-top: .75rem;
+    } 
+    .ig a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: .95rem;
+    }
+    .ig a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -54,6 +77,10 @@
   <header>
     <h1>The TopShelf Shop</h1>
     <p>Strain catalog — informational demo. No sales here. Always follow local law.</p>
+    <div class="ig">
+    <a href="https://instagram.com/YOUR_USERNAME" target="_blank">@YOUR_USERNAME</a>
+</div>
+
   </header>
 
   <main>
