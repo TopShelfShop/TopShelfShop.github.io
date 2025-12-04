@@ -578,7 +578,7 @@
           cbd: 0.05,
           flavour: 'Diesel, Citrus',
           effects: 'Energetic, Focused',
-          desc: 'Premium vape cartridge with potent THC distillate and terpene profile.'
+          desc: 'Sweet and pungent, Blueberry Diesel 1ml THC vape cart delivers potent effects, pure distillate, bold flavor, and smooth draws with 510-thread compatibility.<br><br>Better yet, we never use fillers or cutting agents. That means you’re getting pure THC oil and natural terpenes — nothing more. As a result, each hit is clean, smooth, and consistently satisfying.'
         },
         {
           id: 5,
@@ -589,7 +589,7 @@
           cbd: 0.1,
           flavour: 'Sweet, Spicy',
           effects: 'Sleepy, Relaxed',
-          desc: 'Premium vape cartridge with potent THC distillate and mango terpene profile.'
+          desc: 'Discover the tropical taste of Mango Kush with this potent 1ml THC distillate vape cart. Premium quality, 510-thread compatible, and full of flavor.<br><br>If you’re looking for a flavorful and effective THC vape, look no further. Our Mango Kush Vape Cart – 1ml THC Distillate Cart delivers a smooth, tropical experience that’s both relaxing and uplifting.'
         },
         {
           id: 6,
@@ -604,7 +604,7 @@
           id: 7,
           name: 'Pre-rolls Grease Monkey Cannabis – Organic Slow Burning Joints',
           image: 'prerolls.png',
-          type: 'sativa',
+          type: 'hybrid',
           thc: '26%-28%',
           cbd: 0.1,
           desc: 'Premium pre-rolled joints ready to enjoy.'
@@ -725,7 +725,7 @@
             // Strain card layout
             // Some strains provide THC/CBD with percent signs already; render raw value
             // Optionally hide pills for specific IDs (2 and 5) per request
-            const hidePills = (s.id === 2 || s.id === 5 || s.id === 7);
+            const hidePills = (s.id === 2 || s.id === 6 || s.id === 8 || s.id === 3);
             const tagsHtml = hidePills ? '' : `
                 <div class="tags">
                   <div class="pill">${s.type.toUpperCase()}</div>
