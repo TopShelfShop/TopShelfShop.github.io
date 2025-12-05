@@ -707,7 +707,7 @@
         list.forEach((s) => {
           const card = document.createElement('article');
           card.className = 'card';
-          if (s.id === 2) return;
+          if (s.id === 2 || s.id === 4 || s.id === 5) return;
 
           if (s.kind === 'product') {
             // Product card layout
