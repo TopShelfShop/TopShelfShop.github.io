@@ -719,8 +719,8 @@
         list.forEach((s) => {
           const card = document.createElement('article');
           card.className = 'card';
-          // Hide products with IDs 4 and 5 (vape carts)
-          //if ( s.id === 4 || s.id === 5) return;
+          // Hide products with IDs 3 (vape carts)
+          if ( s.id === 3 ) return;
 
           if (s.kind === 'product') {
             // Product card layout
