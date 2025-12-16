@@ -629,6 +629,15 @@
           thc: '26%-28%',
           cbd: 0.1,
           desc: 'Our 100µg LSD Tabs offer a consistent, lab-tested experience for those seeking deep introspection, creative enhancement, or therapeutic self-discovery.'
+        },
+        {
+          id: 9,
+          name: '100µg LSD Tabs – Lab-Tested Psychedelic Blotters',
+          image: 'vanCityAcid.png',
+          type: 'sativa',
+          thc: '26%-28%',
+          cbd: 0.1,
+          desc: 'Our 100µg LSD Tabs offer a consistent, lab-tested experience for those seeking deep introspection, creative enhancement, or therapeutic self-discovery.'
         }
       ];
 
@@ -720,7 +729,7 @@
           const card = document.createElement('article');
           card.className = 'card';
           // Hide products with IDs 3 (vape carts)
-          if ( s.id === 3 ) return;
+          if ( s.id === 3 || s.id === 9 ) return;
 
           if (s.kind === 'product') {
             // Product card layout
