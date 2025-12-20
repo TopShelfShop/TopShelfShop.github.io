@@ -394,7 +394,7 @@
         width: 38vw; /* 38% of screen width */
         max-width: 420px; /* optional safety cap */
         border-radius: 12px;
-        display: block;
+        display: none;
       }
 
       .ig-close {
@@ -421,7 +421,7 @@
         line-height: 1.4;
         width: 100%;
         box-sizing: border-box;
-        max-height: 120px;
+        max-height: 70px;
         display: block;
       }
     </style>
@@ -438,7 +438,7 @@
   <body>
     <!-- Service announcement bar -->
     <div id="announcementBar">
-      📢 Announcements:<br>⚠️Out of shroomz till after the break⚠️
+      📢 Announcements: DM @pjwops on snap until Dec 31st!<br>
     </div>
 
     <!-- reCAPTCHA verification overlay -->
@@ -729,7 +729,7 @@
           const card = document.createElement('article');
           card.className = 'card';
           // Hide products with IDs 3 (vape carts)
-          if ( s.id === 3 || s.id === 9 ) return;
+          if ( s.id === 3 || s.id === 9  || s.id === 8) return;
 
           if (s.kind === 'product') {
             // Product card layout
