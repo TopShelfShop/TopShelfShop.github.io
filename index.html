@@ -209,6 +209,25 @@
         color: var(--muted);
       }
 
+      .price {
+        margin-top: 0.45rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .price .orig {
+        color: var(--muted);
+        text-decoration: line-through;
+        font-size: 0.95rem;
+      }
+
+      .price .sale {
+        color: var(--accent);
+        font-weight: 700;
+        font-size: 1rem;
+      }
+
       footer {
         text-align: center;
         padding: 1.5rem 1rem;
@@ -394,7 +413,8 @@
         width: 38vw; /* 38% of screen width */
         max-width: 420px; /* optional safety cap */
         border-radius: 12px;
-        display: none;
+        display: block; /* ensure popup image is visible when popup shown */
+        max-height: 80vh;
       }
 
       .ig-close {
@@ -427,15 +447,14 @@
     </style>
   </head>
 
-  <!-- Snap Popup -->
-  <div id="igPopup" class="ig-popup">
-    <div class="ig-popup-inner">
-      <button class="ig-close">✕</button>
-      <img src="images/quneeds2.0SnapCode.png" alt="Instagram Info">
-    </div>
-  </div>
-
   <body>
+    <!-- Snap Popup -->
+    <div id="igPopup" class="ig-popup">
+      <div class="ig-popup-inner">
+        <button class="ig-close">✕</button>
+        <img src="images/quneeds2.0SnapCode.png" alt="Snapcode for quneeds2.0">
+      </div>
+    </div>
     <!-- Service announcement bar -->
     <div id="announcementBar">
       📢 Announcements:<br>⚠️ HUGE INVENTORY RESTOCK IN 1 DAY ⚠️
@@ -545,7 +564,8 @@
           cbd: 0.1,
           flavour: 'Berry, Sweet',
           effects: 'Relaxed, Happy',
-          desc: 'Grease Monkey is a high-end indica-dominant hybrid offering a vanilla-sweet flavor with a diesel finish and a deeply relaxing, body-melting experience.'
+          desc: 'Grease Monkey is a high-end indica-dominant hybrid offering a vanilla-sweet flavor with a diesel finish and a deeply relaxing, body-melting experience.',
+          price: 25.00
         },
         {
           id: 2,
@@ -564,7 +584,8 @@
           - Mixed Berry<br>
           - Blue Razz<br>
           - Baby Bear<br>
-          - Skittles Ice`        
+          - Skittles Ice`,
+          price: 35.00        
         },
         {
           id: 3,
@@ -575,7 +596,8 @@
           cbd: 0.1,
           flavour: 'Strawberry Watermelon',
           effects: '',
-          desc: 'Puffs: Up to 10,000 <br>Capacity: 20mL <br>Battery: 600mAh <br><br>Available Flavours:<br>- Strawberry Watermelon'
+          desc: 'Puffs: Up to 10,000 <br>Capacity: 20mL <br>Battery: 600mAh <br><br>Available Flavours:<br>- Strawberry Watermelon',
+          price: 45.00
         },
         {
           id: 4,
@@ -586,7 +608,8 @@
           cbd: 0.2,
           flavour: 'Earthy, Pine',
           effects: 'Euphoric, Relaxed',
-          desc: 'Penis Envy magic mushrooms are widely recognized as one of the most powerful psilocybin strains in the world. <br><br>Commonly known for their intense effects, unique appearance, and lasting impact.'
+          desc: 'Penis Envy magic mushrooms are widely recognized as one of the most powerful psilocybin strains in the world. <br><br>Commonly known for their intense effects, unique appearance, and lasting impact.',
+          price: 40.00
         },
         {
           id: 5,
@@ -597,7 +620,8 @@
           cbd: 0.2,
           flavour: 'Earthy, Pine',
           effects: 'Euphoric, Relaxed',
-          desc: 'Blue Meaniez magic mushrooms are widely recognized as one of the most powerful psilocybin strains in the world. <br><br>Commonly known for their intense effects, unique appearance, and lasting impact.'
+          desc: 'Blue Meaniez magic mushrooms are widely recognized as one of the most powerful psilocybin strains in the world. <br><br>Commonly known for their intense effects, unique appearance, and lasting impact.',
+          price: 35.00
         },
         {
           id: 6,
@@ -608,7 +632,8 @@
           cbd: 0.05,
           flavour: 'Diesel, Citrus',
           effects: 'Energetic, Focused',
-          desc: 'Sweet and pungent, Blueberry Diesel 1ml THC vape cart delivers potent effects, pure distillate, bold flavor, and smooth draws with 510-thread compatibility.<br><br>Better yet, we never use fillers or cutting agents. That means you’re getting pure THC oil and natural terpenes — nothing more. As a result, each hit is clean, smooth, and consistently satisfying.'
+          desc: 'Sweet and pungent, Blueberry Diesel 1ml THC vape cart delivers potent effects, pure distillate, bold flavor, and smooth draws with 510-thread compatibility.<br><br>Better yet, we never use fillers or cutting agents. That means you’re getting pure THC oil and natural terpenes — nothing more. As a result, each hit is clean, smooth, and consistently satisfying.',
+          price: 35.00
         },
         {
           id: 7,
@@ -619,7 +644,8 @@
           cbd: 0.1,
           flavour: 'Sweet, Spicy',
           effects: 'Sleepy, Relaxed',
-          desc: 'Discover the tropical taste of Mango Kush with this potent 1ml THC distillate vape cart. Premium quality, 510-thread compatible, and full of flavor.<br><br>If you’re looking for a flavorful and effective THC vape, look no further. Our Mango Kush Vape Cart – 1ml THC Distillate Cart delivers a smooth, tropical experience that’s both relaxing and uplifting.'
+          desc: 'Discover the tropical taste of Mango Kush with this potent 1ml THC distillate vape cart. Premium quality, 510-thread compatible, and full of flavor.<br><br>If you’re looking for a flavorful and effective THC vape, look no further. Our Mango Kush Vape Cart – 1ml THC Distillate Cart delivers a smooth, tropical experience that’s both relaxing and uplifting.',
+          price: 35.00
         },
         {
           id: 8,
@@ -628,7 +654,8 @@
           type: 'hybrid',
           thc: 'N/A',
           cbd: 'N/A',
-          desc: 'Universal 510 thread battery compatible with all standard cartridges.'
+          desc: 'Universal 510 thread battery compatible with all standard cartridges.',
+          price: 20.00
         },
         {
           id: 9,
@@ -637,7 +664,8 @@
           type: 'hybrid',
           thc: '26%-28%',
           cbd: 0.1,
-          desc: 'Premium pre-rolled joints ready to enjoy.'
+          desc: 'Premium pre-rolled joints ready to enjoy.',
+          price: 20.00
         },
         {
           id: 10,
@@ -646,7 +674,8 @@
           type: 'sativa',
           thc: '26%-28%',
           cbd: 0.1,
-          desc: 'Our 100µg LSD Tabs offer a consistent, lab-tested experience for those seeking deep introspection, creative enhancement, or therapeutic self-discovery.'
+          desc: 'Our 100µg LSD Tabs offer a consistent, lab-tested experience for those seeking deep introspection, creative enhancement, or therapeutic self-discovery.',
+          price: 20.00
         },
         {
           id: 11,
@@ -655,7 +684,8 @@
           type: 'sativa',
           thc: '26%-28%',
           cbd: 0.1,
-          desc: 'Our 100µg LSD Tabs offer a consistent, lab-tested experience for those seeking deep introspection, creative enhancement, or therapeutic self-discovery.'
+          desc: 'Our 100µg LSD Tabs offer a consistent, lab-tested experience for those seeking deep introspection, creative enhancement, or therapeutic self-discovery.',
+          price: 20.00
         }
       ];
 
@@ -666,7 +696,7 @@
           name: 'Premium Flower',
           image: 'product-tshirt.jpg',
           category: 'Flower',
-          price: '$45.00',
+          price: 10.99,
           grams: '3.5g',
           potency: '22% THC',
           desc: 'High-quality dried flower with excellent flavor profile.'
@@ -676,7 +706,7 @@
           name: 'Concentrate Syringe',
           image: 'product-tray.jpg',
           category: 'Concentrate',
-          price: '$35.00',
+          price: 10.99,
           grams: '1g',
           potency: '85% THC',
           desc: 'Premium concentrate in easy-to-use syringe format.'
@@ -686,7 +716,7 @@
           name: 'Edible Gummies',
           image: 'product-tea.jpg',
           category: 'Edibles',
-          price: '$15.00',
+          price: 10.99,
           grams: '10 pieces',
           potency: '10mg THC each',
           desc: 'Delicious, precisely dosed gummies for consistent effects.'
@@ -696,7 +726,7 @@
           name: 'Pre-Rolled Joints',
           image: 'sample.png',
           category: 'Pre-Roll',
-          price: '$8.00',
+          price: 10.99,
           grams: '0.75g each',
           potency: '20% THC',
           desc: 'Hand-rolled with premium flower, ready to enjoy.'
@@ -706,7 +736,7 @@
           name: 'Cartridge - Vape',
           image: 'sample.png',
           category: 'Vape',
-          price: '$30.00',
+          price: 10.99,
           grams: '0.5ml',
           potency: '80% THC',
           desc: 'Compatible with standard 510 thread batteries.'
@@ -716,7 +746,7 @@
           name: 'Tincture Bottle',
           image: 'sample.png',
           category: 'Tincture',
-          price: '$28.00',
+          price: 10.99,
           grams: '30ml',
           potency: '500mg THC total',
           desc: 'Sublingual tincture for fast absorption and precise dosing.'
@@ -746,8 +776,9 @@
         list.forEach((s) => {
           const card = document.createElement('article');
           card.className = 'card';
-          // Hide products with these IDs
-          if ( s.id === 1 ||/* s.id === 2 || s.id === 3 ||*/ s.id === 4 || s.id === 5 || s.id === 6 || s.id === 7||/* s.id === 8 ||*/ s.id === 9 || s.id === 10 || s.id === 11) return;
+          // Hide specific items by id — keep this list centralized for clarity
+          const hiddenIds = [1, 4, 5, 6, 7, 9, 10, 11];
+          if (hiddenIds.includes(s.id)) return;
           /*
             1 - Grease Monkey
             2 - Mesh10s
@@ -762,7 +793,9 @@
             11 - cigs
           */
           if (s.kind === 'product') {
-            // Product card layout
+            // Product card layout (show sale price and struck original price)
+            const salePrice = Number(s.price) || 10.99;
+            const origPrice = (salePrice * 1.2).toFixed(2);
             card.innerHTML = `
               <div class="thumb"><img alt="${s.name} photo" src="images/${s.image}"></div>
               <h3 style="margin:0">${s.name}</h3>
@@ -772,7 +805,8 @@
                 <div class="pill">${s.potency}</div>
               </div>
               <p style="margin:.6rem 0 .2rem;color:var(--muted);font-size:.95rem">${s.desc}</p>
-              <div class="meta"><small style="color:var(--accent);font-weight:600">${s.price}</small><button data-id="${s.id}">Details</button></div>
+              <div class="price"><small class="orig">$${origPrice}</small><span class="sale">$${salePrice.toFixed(2)}</span></div>
+              <div class="meta"><button data-id="${s.id}">Details</button></div>
             `;
           } else {
             // Strain card layout
@@ -786,10 +820,13 @@
                   <div class="pill">CBD: ${s.cbd}</div>
                 </div>`;
 
+            const salePrice = Number(s.price) || 10.99;
+            const origPrice = (salePrice * 1.225).toFixed(2);
             card.innerHTML = `
               <div class="thumb"><img alt="${s.name} photo" src="images/${s.image}"></div>
               <h3 style="margin:0">${s.name}</h3>
               ${tagsHtml}
+              <div class="price"><small class="orig">$${origPrice}</small><span class="sale">$${salePrice.toFixed(2)}</span></div>
               <div class="meta"><small>${s.desc}</small><button data-id="${s.id}">Details</button></div>
             `;
           }
@@ -900,11 +937,15 @@
           document.getElementById('m-title').textContent = s.name + ' — ' + s.type.toUpperCase();
           document.getElementById('m-desc').textContent = s.desc;
           // Show raw THC/CBD values (don't append extra %)
-          document.getElementById('m-notes').textContent = `THC: ${s.thc} · CBD: ${s.cbd}`;
+          const salePrice = Number(s.price) || 10.99;
+          const origPrice = (salePrice * 1.2).toFixed(2);
+          document.getElementById('m-notes').textContent = `THC: ${s.thc} · CBD: ${s.cbd} · Price: $${salePrice.toFixed(2)} (was $${origPrice})`;
         } else {
           document.getElementById('m-title').textContent = s.name + ' — ' + s.category;
           document.getElementById('m-desc').textContent = s.desc;
-          document.getElementById('m-notes').textContent = `Weight: ${s.grams} · Potency: ${s.potency} · Price: ${s.price}`;
+          const salePrice = Number(s.price) || 10.99;
+          const origPrice = (salePrice * 1.2).toFixed(2);
+          document.getElementById('m-notes').textContent = `Weight: ${s.grams} · Potency: ${s.potency} · Price: $${salePrice.toFixed(2)} (was $${origPrice})`;
         }
 
         document.getElementById('modal').style.display = 'flex';
