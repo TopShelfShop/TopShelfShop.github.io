@@ -438,7 +438,7 @@
   <body>
     <!-- Service announcement bar -->
     <div id="announcementBar">
-      📢 Announcements:<br>⚠️Carts will be restocked by Jan 11th⚠️
+      📢 Announcements:<br>⚠️ HUGE INVENTORY RESTOCK IN 1 DAY ⚠️
     </div>
 
     <!-- reCAPTCHA verification overlay -->
@@ -558,16 +558,16 @@
           effects: 'Relaxed, Happy',
           desc: `Puffs: Up to 3,000 <br>Capacity: 10mL <br>Battery: 1200mAh <br><br>Available Flavours:<br>
           - Grape Ice<br>
-          - Lush Ice (Watermelon Ice)
-          - Guava Kiwi Passionfruit
-          - Peach Ice
-          - Mixed Berry
-          - Blue Razz
-          - Baby Bear
+          - Lush Ice (Watermelon Ice)<br>
+          - Guava Kiwi Passionfruit<br>
+          - Peach Ice<br>
+          - Mixed Berry<br>
+          - Blue Razz<br>
+          - Baby Bear<br>
           - Skittles Ice`        
         },
         {
-          id: 2.5,
+          id: 3,
           name: '5% nic OVNS Mesh20 – 10,000 Puff Disposable Vape',
           image: 'ovnsMesh20s.png',
           type: 'hybrid',
@@ -578,7 +578,7 @@
           desc: 'Puffs: Up to 10,000 <br>Capacity: 20mL <br>Battery: 600mAh <br><br>Available Flavours:<br>- Strawberry Watermelon'
         },
         {
-          id: 3,
+          id: 4,
           name: 'Penis Envy Shrooms – Potent Psilocybin Mushrooms',
           image: 'penisEnvy.png',
           type: 'indica',
@@ -589,7 +589,18 @@
           desc: 'Penis Envy magic mushrooms are widely recognized as one of the most powerful psilocybin strains in the world. <br><br>Commonly known for their intense effects, unique appearance, and lasting impact.'
         },
         {
-          id: 4,
+          id: 5,
+          name: 'Blue Meaniez Shrooms – Potent Psilocybin Mushrooms',
+          image: 'bluemeaniez.png',
+          type: 's',
+          thc: 22,
+          cbd: 0.2,
+          flavour: 'Earthy, Pine',
+          effects: 'Euphoric, Relaxed',
+          desc: 'Blue Meaniez magic mushrooms are widely recognized as one of the most powerful psilocybin strains in the world. <br><br>Commonly known for their intense effects, unique appearance, and lasting impact.'
+        },
+        {
+          id: 6,
           name: 'Blueberry Diesel Vape – 1.1g THC Distillate Cart',
           image: 'blueberryDieselCart.png',
           type: 'sativa',
@@ -600,7 +611,7 @@
           desc: 'Sweet and pungent, Blueberry Diesel 1ml THC vape cart delivers potent effects, pure distillate, bold flavor, and smooth draws with 510-thread compatibility.<br><br>Better yet, we never use fillers or cutting agents. That means you’re getting pure THC oil and natural terpenes — nothing more. As a result, each hit is clean, smooth, and consistently satisfying.'
         },
         {
-          id: 5,
+          id: 7,
           name: 'Mango Kush Vape – 1.1g THC Distillate Cart',
           image: 'mangoKushCart.png',
           type: 'indica',
@@ -611,7 +622,7 @@
           desc: 'Discover the tropical taste of Mango Kush with this potent 1ml THC distillate vape cart. Premium quality, 510-thread compatible, and full of flavor.<br><br>If you’re looking for a flavorful and effective THC vape, look no further. Our Mango Kush Vape Cart – 1ml THC Distillate Cart delivers a smooth, tropical experience that’s both relaxing and uplifting.'
         },
         {
-          id: 6,
+          id: 8,
           name: 'Solei 510 Thread Battery – Universal Vape Pen',
           image: '510battery.png',
           type: 'hybrid',
@@ -620,7 +631,7 @@
           desc: 'Universal 510 thread battery compatible with all standard cartridges.'
         },
         {
-          id: 7,
+          id: 9,
           name: 'Pre-rolls Grease Monkey Cannabis – Organic Slow Burning Joints',
           image: 'prerolls.png',
           type: 'hybrid',
@@ -629,7 +640,7 @@
           desc: 'Premium pre-rolled joints ready to enjoy.'
         },
         {
-          id: 8,
+          id: 10,
           name: '100µg LSD Tabs – Lab-Tested Psychedelic Blotters',
           image: 'vanCityAcid.png',
           type: 'sativa',
@@ -638,9 +649,9 @@
           desc: 'Our 100µg LSD Tabs offer a consistent, lab-tested experience for those seeking deep introspection, creative enhancement, or therapeutic self-discovery.'
         },
         {
-          id: 9,
-          name: '100µg LSD Tabs – Lab-Tested Psychedelic Blotters',
-          image: 'vanCityAcid.png',
+          id: 11,
+          name: 'Cigarettes',
+          image: 'bomboclat.png',
           type: 'sativa',
           thc: '26%-28%',
           cbd: 0.1,
@@ -735,9 +746,21 @@
         list.forEach((s) => {
           const card = document.createElement('article');
           card.className = 'card';
-          // Hide products with IDs 3 (vape carts)
-          if ( s.id === 3 || s.id === 9 || s.id === 8 || s.id === 4 || s.id === 5) return;
-
+          // Hide products with these IDs
+          if ( s.id === 1 ||/* s.id === 2 || s.id === 3 ||*/ s.id === 4 || s.id === 5 || s.id === 6 || s.id === 7||/* s.id === 8 ||*/ s.id === 9 || s.id === 10 || s.id === 11) return;
+          /*
+            1 - Grease Monkey
+            2 - Mesh10s
+            3 - Mesh20s
+            4 - Penis Envy
+            5 - Blue Meanies
+            6 - Blueberry Diesel
+            7 - Mango Ass
+            8 - Battery
+            9 - Prerolls
+            10 - tabs
+            11 - cigs
+          */
           if (s.kind === 'product') {
             // Product card layout
             card.innerHTML = `
@@ -755,7 +778,7 @@
             // Strain card layout
             // Some strains provide THC/CBD with percent signs already; render raw value
             // Optionally hide pills for specific IDs (2 and 5)
-            const hidePills = (s.id === 2 || s.id === 2.5 || s.id === 6 || s.id === 8 || s.id === 3);
+            const hidePills = (s.id === 2 || s.id === 3 || s.id === 4 || s.id === 5 || s.id === 8 || s.id === 10 || s.id === 11);
             const tagsHtml = hidePills ? '' : `
                 <div class="tags">
                   <div class="pill">${s.type.toUpperCase()}</div>
