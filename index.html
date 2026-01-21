@@ -580,7 +580,7 @@
           desc: `Puffs: Up to 3,000 <br>Capacity: 10mL <br>Battery: 1200mAh <br><br>Available Flavours:<br>
           - Grape Ice<br>
           - Lush Ice (Watermelon Ice)<br>
-          - Guava Kiwi Passionfruit<br>
+          - Guava Kiwi Passionfruit (sold out)<br>
           - Peach Ice<br>
           - Mixed Berry<br>
           - Blue Razz<br>
@@ -809,7 +809,7 @@
               <div class="price"><small class="orig">$${origPrice}</small><span class="sale">$${salePrice.toFixed(2)}</span></div>
               <div class="meta"><button data-id="${s.id}">Details</button></div>
             `;
-          } else {
+          } else { // if s kind === 'strain'
             // Strain card layout
             // Some strains provide THC/CBD with percent signs already; render raw value
             // Optionally hide pills for specific IDs (2 and 5)
@@ -822,7 +822,7 @@
                 </div>`;
 
             const salePrice = Number(s.price) || 10.99;
-            const origPrice = (salePrice * 1.225).toFixed(2);
+            const origPrice = (salePrice + 5.00).toFixed(2);
             card.innerHTML = `
               <div class="thumb"><img alt="${s.name} photo" src="images/${s.image}"></div>
               <h3 style="margin:0">${s.name}</h3>
