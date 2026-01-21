@@ -812,7 +812,7 @@
             // Strain card layout
             // Some strains provide THC/CBD with percent signs already; render raw value
             // Optionally hide pills for specific IDs (2 and 5)
-            const hidePills = (s.id === 2 || s.id === 3 || s.id === 4 || s.id === 5 || s.id === 8 || s.id === 10 || s.id === 11);
+            const hidePills = (s.id === 2 || s.id === 3 || s.id === 4 || s.id === 5 || s.id === 5 || s.id === 8 || s.id === 10 || s.id === 11);
             const tagsHtml = hidePills ? '' : `
                 <div class="tags">
                   <div class="pill">${s.type.toUpperCase()}</div>
