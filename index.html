@@ -690,13 +690,33 @@
         },
         {
           id: 12,
-          name: '5% nic OVNS Mesh20 – 10,000 Puff Disposable Vape',
+          name: '5% nic OVNS Mesh08 – 10,000 Puff Disposable Vape',
           image: 'mesh08.png',
           type: 'sativa',
           thc: '26%-28%',
           cbd: 0.1,
           desc: 'Puffs: Up to 3,000 <br>Capacity: 10mL <br>Battery: 1200mAh <br><br>Available Flavours:<br> - G-Bear <br> - Mixed Berry [1 LEFT!] <br> - Peach Ice <br> - Lush (Watermelon) Ice (sold out)<br> - Skittles Ice (sold out)<br> - GuavaKiwiPassionfruit (sold out)<br> - Blue Razz (sold out)<br> - Grape Ice (sold out)<br>',
-          price: 20.00
+          price: 30.00
+        },
+        {
+          id: 13,
+          name: '5% nic STARPods – 3x2ml E-Pods',
+          image: 'starpods.png',
+          type: 'sativa',
+          thc: '26%-28%',
+          cbd: 0.1,
+          desc: 'Each pack contains 3 disposable vape pods, each individually packaged for optimal freshness. 2.0 mL of E-liquid per pod.  <br><br>Available Flavours:<br> - Mango Pineapple <br> - Pink Lemonade [1 LEFT!] <br> - Strawnana <br> - Caribbean Punch',
+          price: 25.00
+        },
+        {
+          id: 13,
+          name: 'STLTH Device Type C - ',
+          image: 'starpods.png',
+          type: 'sativa',
+          thc: '26%-28%',
+          cbd: 0.1,
+          desc: 'Package includes:<br> 1 x Device (Black)<br> 1 x USB Type-C Charging Cable<br> 1 x Instruction and Warranty Manual<br> Designed specifically for smokers in mind, this device is built for practical everyday usage with an upgraded 470 mAh battery.  <br><br>Available Colours:<br> - Mango Pineapple <br> - Pink Lemonade [1 LEFT!] <br> - Strawnana <br> - Caribbean Punch',
+          price: 25.00
         }
       ];
 
@@ -823,7 +843,7 @@
             // Strain card layout
             // Some strains provide THC/CBD with percent signs already; render raw value
             // Optionally hide pills for specific IDs (2 and 5)
-            const hidePills = (s.id === 2 || s.id === 3 || s.id === 4 || s.id === 5 || s.id === 8 || s.id === 10 || s.id === 11);
+            const hidePills = (s.id === 2 || s.id === 3 || s.id === 4 || s.id === 5 || s.id === 8 || s.id === 10 || s.id === 11 || s.id === 12 || s.id === 13 || s.id === 14);
             const tagsHtml = hidePills ? '' : `
                 <div class="tags">
                   <div class="pill">${s.type.toUpperCase()}</div>
