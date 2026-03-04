@@ -91,34 +91,6 @@
         display: none; /* hidden per user request; toggle remains in DOM */
       }
 
-      .gallery {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        width: 100%;
-        margin: 0;
-        padding: 0;
-      }
-
-      .gallery img {
-        width: 100%;
-        height: auto;
-        object-fit: contain;
-        border-radius: 0;
-      }
-
-      /* Responsive: side-by-side on wide screens */
-      @media (min-width: 900px) {
-        .gallery {
-          flex-direction: row;
-          align-items: flex-start;
-        }
-
-        .gallery img {
-          width: 50%;
-          height: auto;
-        }
-      }
 
       .search {
         flex: 1;
@@ -238,7 +210,7 @@
 
     
 
-      /* strain modal */
+      /* product modal */
       .modal {
         position: fixed;
         inset: 0;
@@ -395,27 +367,6 @@
         letter-spacing: 0.3px;
       }
 
-      .ig-popup {
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.65);
-        display: none;
-        align-items: center;
-        justify-content: center;
-        z-index: 99999;
-      }
-
-      .ig-popup-inner {
-        position: relative;
-      }
-
-      .ig-popup-inner img {
-        width: 38vw; /* 38% of screen width */
-        max-width: 420px; /* optional safety cap */
-        border-radius: 12px;
-        display: block; /* ensure popup image is visible when popup shown */
-        max-height: 80vh;
-      }
 
       .ig-close {
         position: absolute;
@@ -441,7 +392,7 @@
         line-height: 1.4;
         width: 100%;
         box-sizing: border-box;
-        max-height: 70px;
+        max-height: 90px;
         display: block;
       }
     </style>
@@ -449,16 +400,9 @@
 
   
   <body>
-    <!-- Snap Popup -->
-    <div id="igPopup" class="ig-popup">
-      <div class="ig-popup-inner">
-        <button class="ig-close">✕</button>
-        <img src="images/quneeds2.0SnapCode.png" alt="Snapcode for quneeds2.0">
-      </div>
-    </div>
     <!-- Service announcement bar -->
     <div id="announcementBar">
-      📢 Announcements: <br> HUGE NEW VAPE STOCK!! <br> when paying w ET; either show me u hit confirm or send it beforehand; ideally have transfer ready on arrival
+      📢 Announcements: <br> SNAPCHAT GOT BANNED @pjwops ON INSTA <br> HUGE NEW VAPE STOCK!! <br>- M now availble
     </div>
 
     <!-- reCAPTCHA verification overlay -->
@@ -493,7 +437,7 @@
       <p>PRODUCT CATALOG - UPDATED EVERY THURSDAY</p>
 
       <div class="ig">
-        <a href="https://instagram.com/quneeds2.0" target="_blank">@quneeds2.0</a>
+        <a href="https://instagram.com/pjwops" target="_blank">@pjwops</a>
         <small class="dm-note">DM 📲↗️</small>
       </div>
     </header>
@@ -502,13 +446,9 @@
       <button id="toggleControls">Show Controls</button>
 
       <div class="controls">
-        <input class="search" id="search" placeholder="Search strains, effects, products, or notes" />
+        <input class="search" id="search" placeholder="Search products, effects, or notes" />
 
-        <select id="viewFilter">
-          <option value="both">View: Both</option>
-          <option value="strains">Strains</option>
-          <option value="products">Products</option>
-        </select>
+
 
         <select id="typeFilter">
           <option value="all">All types</option>
@@ -527,7 +467,6 @@
         <button id="reset">Reset</button>
       </div>
 
-      <!-- gallery removed per user request -->
 
       <section class="grid" id="catalog">
         <!-- Cards injected by JS -->
@@ -536,14 +475,14 @@
       <!-- Footer / legal notice -->
       <footer>
         <small>
-          Top-Shelf-Shop — showcasing products and strains. We do not sell products to persons under 19. &copy; Top-Shelf-Shop
+          Top-Shelf-Shop — showcasing products. We do not sell products to persons under 19. &copy; Top-Shelf-Shop
         </small>
       </footer>
 
-      <!-- Modal: shows details for a strain or product -->
+      <!-- Modal: shows details for a product -->
       <div class="modal" id="modal" aria-hidden="true">
         <div class="inner">
-          <h3 id="m-title">Strain name</h3>
+          <h3 id="m-title">Product name</h3>
           <p id="m-desc"></p>
           <p id="m-notes" style="color:var(--muted)"></p>
           <div style="text-align:right;margin-top:.75rem">
@@ -553,9 +492,9 @@
       </div>
 
     <script>
-      // ---------- Data: strains & products ----------
-      // Sample strain data — replace/extend as you like
-      const strains = [
+      // ---------- Data: products ----------
+      // list of items (formerly "strains"); prices can now be set directly
+      const products = [
         {
           id: 12,
           name: '5% nic OVNS Mesh08 – 2,500 Puff Disposable Vape',
@@ -564,7 +503,8 @@
           thc: '26%-28%',
           cbd: 0.1,
           desc: 'Puffs: Up to 2,500 <br>Capacity: 8mL <br>Battery:  1150 mAh <br><br>Available Flavours:<br> - Mexican Mango [LIMITED EDITION] <br> - Mango Frost [LIMITED EDITION] <br> - Red B Melon Ice <br> - StrawBWMelon Ice <br> - Skittles <br> - Guava Lychee <br> - Tropical Rainbow Frost [LIMITED EDITION]<br> - Mixed Berry',
-          price: 30.00
+          salePrice: 25.00,
+          orgPrice: 30.00
         },
         {
           id: 13,
@@ -574,7 +514,8 @@
           thc: '26%-28%',
           cbd: 0.1,
           desc: 'Each pack contains 3 disposable vape pods, each individually packaged for optimal freshness. 2.0 mL of E-liquid per pod.  <br><br>Available Flavours:<br> - Mango Pineapple <br> - Pink Lemonade [1 LEFT!] <br> - Strawnana <br> - Caribbean Punch',
-          price: 25.00
+          salePrice: 25.00,
+          orgPrice: 30.00
         },
         {
           id: 14,
@@ -584,7 +525,8 @@
           thc: '26%-28%',
           cbd: 0.1,
           desc: '⭐Pods Compatible;<br>Package includes:<br> 1 x Device (Black)<br> 1 x USB Type-C Cable<br> 1 x Instruction + Warranty Manual<br><br>Available Colours:<br> - Grey [1 LEFT!] ',
-          price: 25.00
+          salePrice: 25.00,
+          orgPrice: 30.00
         },
         {
           id: 1,
@@ -596,7 +538,8 @@
           flavour: 'Berry, Sweet',
           effects: 'Relaxed, Happy',
           desc: 'Grease Monkey is an  indica-dominant hybrid offering a vanilla-sweet flavor with a diesel finish. <br><br> - 3.5g/$25 <br> - 5g/$30 <br> - 7g/$35 <br> - 10g/$40 <br> - 14g/$45 <br> - 28g/$80 <br> - QP+/ dm me',
-          price: 25.00
+          salePrice: 25.00,
+          orgPrice: 30.00
         },
         {
           id: 2,
@@ -616,7 +559,8 @@
           - GuavaKiwiPassionfruit (sold out)<br>
           - Blue Razz (sold out)<br>
           - Grape Ice (sold out)<br>`,
-          price: 35.00        
+          salePrice: 30.00,
+          orgPrice: 35.00        
         },
         {
           id: 3,
@@ -628,7 +572,8 @@
           flavour: 'Strawberry Watermelon',
           effects: '',
           desc: 'Puffs: Up to 10,000 <br>Capacity: 20mL <br>Battery: 600mAh <br><br>Available Flavours:<br>- Strawberry Watermelon',
-          price: 45.00
+          salePrice: 45.00,
+          orgPrice: 50.00
         },
         {
           id: 4,
@@ -640,7 +585,8 @@
           flavour: 'Earthy, Pine',
           effects: 'Euphoric, Relaxed',
           desc: 'Penis Envy magic mushrooms are widely recognized as one of the most powerful psilocybin strains in the world. <br><br>Commonly known for their intense effects, unique appearance, and lasting impact.',
-          price: 40.00
+          salePrice: 40.00,
+          orgPrice: 45.00
         },
         {
           id: 5,
@@ -652,7 +598,8 @@
           flavour: 'Earthy, Pine',
           effects: 'Euphoric, Relaxed',
           desc: 'Blue Meaniez magic mushrooms are widely recognized as one of the most powerful psilocybin strains in the world. <br><br>Commonly known for their intense effects, unique appearance, and lasting impact.',
-          price: 35.00
+          salePrice: 35.00,
+          orgPrice: 40.00
         },
         {
           id: 6,
@@ -664,7 +611,8 @@
           flavour: 'Diesel, Citrus',
           effects: 'Energetic, Focused',
           desc: 'Sweet and pungent, Blueberry Diesel 1ml THC vape cart delivers potent effects, pure distillate, bold flavor, and smooth draws with 510-thread compatibility.',
-          price: 35.00
+          salePrice: 35.00,
+          orgPrice: 40.00
         },
         {
           id: 7,
@@ -676,7 +624,8 @@
           flavour: 'Sweet, Spicy',
           effects: 'Sleepy, Relaxed',
           desc: 'Potent 1ml THC distillate vape cart. Premium quality, 510-thread compatible, and full of flavor.',
-          price: 35.00
+          salePrice: 35.00,
+          orgPrice: 40.00
         },
         {
           id: 8,
@@ -686,7 +635,8 @@
           thc: 'N/A',
           cbd: 'N/A',
           desc: 'Universal 510 thread battery compatible with all standard cartridges.',
-          price: 20.00
+          salePrice: 18.99,
+          orgPrice: 25.00
         },
         {
           id: 9,
@@ -695,8 +645,9 @@
           type: 'hybrid',
           thc: '26%-28%',
           cbd: 0.1,
-          desc: 'Premium pre-rolled 1g joints ready to enjoy.<br><br>$2 extra to have tobacco<br>rolled in just ask me.<br><br> - 2/$18 <br> - 3/$24 <br> - 5/$30 <br> - 10/$40 <br>',
-          price: 20.00
+          desc: 'Premium pre-rolled 1g joints ready to enjoy.<br><br>$2 extra to have tobacco<br>rolled in just ask me.<br><br> - 2/$18 <br> - 3/$22 <br> - 5/$32 <br> - 10/$48 <br>',
+          salePrice: 18.00,
+          orgPrice: 20.00
         },
         {
           id: 10,
@@ -706,7 +657,8 @@
           thc: '26%-28%',
           cbd: 0.1,
           desc: 'Our 100µg LSD Tabs offer a consistent, lab-tested experience for those seeking deep introspection, creative enhancement, or therapeutic self-discovery.',
-          price: 20.00
+          salePrice: 20.00,
+          orgPrice: 24.00
         },
         {
           id: 11,
@@ -716,78 +668,16 @@
           thc: '26%-28%',
           cbd: 0.1,
           desc: 'Our 100µg LSD Tabs offer a consistent, lab-tested experience for those seeking deep introspection, creative enhancement, or therapeutic self-discovery.',
-          price: 20.00
+          salePrice: 20.00,
+          orgPrice: 24.00
         }
       ];
 
-      // Product catalog
-      const products = [
-        {
-          id: 101,
-          name: 'Premium Flower',
-          image: 'product-tshirt.jpg',
-          category: 'Flower',
-          price: 10.99,
-          grams: '3.5g',
-          potency: '22% THC',
-          desc: 'High-quality dried flower with excellent flavor profile.'
-        },
-        {
-          id: 102,
-          name: 'Concentrate Syringe',
-          image: 'product-tray.jpg',
-          category: 'Concentrate',
-          price: 10.99,
-          grams: '1g',
-          potency: '85% THC',
-          desc: 'Premium concentrate in easy-to-use syringe format.'
-        },
-        {
-          id: 103,
-          name: 'Edible Gummies',
-          image: 'product-tea.jpg',
-          category: 'Edibles',
-          price: 10.99,
-          grams: '10 pieces',
-          potency: '10mg THC each',
-          desc: 'Delicious, precisely dosed gummies for consistent effects.'
-        },
-        {
-          id: 104,
-          name: 'Pre-Rolled Joints',
-          image: 'sample.png',
-          category: 'Pre-Roll',
-          price: 10.99,
-          grams: '0.75g each',
-          potency: '20% THC',
-          desc: 'Hand-rolled with premium flower, ready to enjoy.'
-        },
-        {
-          id: 105,
-          name: 'Cartridge - Vape',
-          image: 'sample.png',
-          category: 'Vape',
-          price: 10.99,
-          grams: '0.5ml',
-          potency: '80% THC',
-          desc: 'Compatible with standard 510 thread batteries.'
-        },
-        {
-          id: 106,
-          name: 'Tincture Bottle',
-          image: 'sample.png',
-          category: 'Tincture',
-          price: 10.99,
-          grams: '30ml',
-          potency: '500mg THC total',
-          desc: 'Sublingual tincture for fast absorption and precise dosing.'
-        }
-      ];
+
 
       // ---------- DOM references ----------
       const catalog = document.getElementById('catalog');
       const search = document.getElementById('search');
-      const viewFilter = document.getElementById('viewFilter');
       const typeFilter = document.getElementById('typeFilter');
       const thcFilter = document.getElementById('thcFilter');
       const reset = document.getElementById('reset');
@@ -804,90 +694,51 @@
           return;
         }
 
-        list.forEach((s) => {
+        list.forEach((p) => {
+          // hide specific tiles by id
+          const hiddenIds = [3, 4, 5, 7, 10, 11, 6];
+          if (hiddenIds.includes(p.id)) return;
+
           const card = document.createElement('article');
           card.className = 'card';
-          // Hide specific items by id — keep this list centralized for clarity
-          const hiddenIds = [ 3, 4, 5, 7, 10, 11];
-          if (hiddenIds.includes(s.id)) return;
-          /*
-            1 - Grease Monkey
-            2 - Mesh10s
-            3 - Mesh20s
-            4 - Penis Envy
-            5 - Blue Meanies
-            6 - Blueberry Diesel
-            7 - Mango Ass
-            8 - Battery
-            9 - Prerolls
-            10 - tabs
-            11 - cigs
-          */
-          if (s.kind === 'product') {
-            // Product card layout (show sale price and struck original price)
-            const salePrice = Number(s.price) || 10.99;
-            const origPrice = (salePrice * 1.2).toFixed(2);
-            card.innerHTML = `
-              <div class="thumb"><img alt="${s.name} photo" src="images/${s.image}"></div>
-              <h3 style="margin:0">${s.name}</h3>
-              <div class="tags">
-                <div class="pill">${s.category}</div>
-                <div class="pill">${s.grams}</div>
-                <div class="pill">${s.potency}</div>
-              </div>
-              <p style="margin:.6rem 0 .2rem;color:var(--muted);font-size:.95rem">${s.desc}</p>
-              <div class="price"><small class="orig">$${origPrice}</small><span class="sale">$${salePrice.toFixed(2)}</span></div>
-              <div class="meta"><button data-id="${s.id}">Details</button></div>
-            `;
-          } else { // if s kind === 'strain'
-            // Strain card layout
-            // Some strains provide THC/CBD with percent signs already; render raw value
-            // Optionally hide pills for specific IDs (2 and 5)
-            const hidePills = (s.id === 2 || s.id === 3 || s.id === 4 || s.id === 5 || s.id === 8 || s.id === 10 || s.id === 11 || s.id === 12 || s.id === 13 || s.id === 14);
-            const tagsHtml = hidePills ? '' : `
-                <div class="tags">
-                  <div class="pill">${s.type.toUpperCase()}</div>
-                  <div class="pill">THC: ${s.thc}</div>
-                  <div class="pill">CBD: ${s.cbd}</div>
-                </div>`;
 
-            const salePrice = Number(s.price) || 10.99;
-            const origPrice = (salePrice + 5.00).toFixed(2);
-            card.innerHTML = `
-              <div class="thumb"><img alt="${s.name} photo" src="images/${s.image}"></div>
-              <h3 style="margin:0">${s.name}</h3>
-              ${tagsHtml}
-              <div class="price"><small class="orig">$${origPrice}</small><span class="sale">$${salePrice.toFixed(2)}</span></div>
-              <div class="meta"><small>${s.desc}</small><button data-id="${s.id}">Details</button></div>
-            `;
-          }
+          const salePrice = Number(p.salePrice) || 10.99;
+          const origPrice = Number(p.orgPrice) || salePrice;
+
+          // build simple tag block using type/thc/cbd if available
+          const tagsHtml = p.type || p.thc || p.cbd ? `
+              <div class="tags">
+                ${p.type ? `<div class="pill">${p.type.toUpperCase()}</div>` : ''}
+                ${p.thc ? `<div class="pill">THC: ${p.thc}</div>` : ''}
+                ${p.cbd ? `<div class="pill">CBD: ${p.cbd}</div>` : ''}
+              </div>` : '';
+
+          card.innerHTML = `
+            <div class="thumb"><img alt="${p.name} photo" src="images/${p.image}"></div>
+            <h3 style="margin:0">${p.name}</h3>
+            ${tagsHtml}
+            <p style="margin:.6rem 0 .2rem;color:var(--muted);font-size:.95rem">${p.desc}</p>
+            <div class="price"><small class="orig">$${origPrice.toFixed(2)}</small><span class="sale">$${salePrice.toFixed(2)}</span></div>
+            <div class="meta"><button data-id="${p.id}">Details</button></div>
+          `;
 
           catalog.appendChild(card);
         });
       }
 
-      // Apply filters and search to the combined pool and render results
+      // Apply filters and search to product list and render results
       function applyFilters() {
         const q = search.value.trim().toLowerCase();
-        const view = viewFilter.value;
         const type = typeFilter.value;
         const thc = thcFilter.value;
 
-        let pool = [];
-        if (view === 'strains') pool = strains.map((s) => ({ ...s, kind: 'strain' }));
-        else if (view === 'products') pool = products.map((p) => ({ ...p, kind: 'product' }));
-        else pool = strains.map((s) => ({ ...s, kind: 'strain' })).concat(products.map((p) => ({ ...p, kind: 'product' })));
+        const pool = products.slice(); // copy of dataset
 
         const out = pool.filter((item) => {
-          // Hide products with IDs 101-106 (tiles 7+)
-          if (item.id >= 101 && item.id <= 106) return false;
-
-          if (item.kind === 'strain') {
-            if (type !== 'all' && item.type !== type) return false;
-            if (thc === 'low' && !(item.thc < 10)) return false;
-            if (thc === 'med' && !(item.thc >= 10 && item.thc <= 20)) return false;
-            if (thc === 'high' && !(item.thc > 20)) return false;
-          }
+          if (type !== 'all' && item.type !== type) return false;
+          if (thc === 'low' && !(item.thc < 10)) return false;
+          if (thc === 'med' && !(item.thc >= 10 && item.thc <= 20)) return false;
+          if (thc === 'high' && !(item.thc > 20)) return false;
 
           if (!q) return true;
 
@@ -902,7 +753,9 @@
             ' ' +
             (item.category || '') +
             ' ' +
-            (item.price || '')
+            (item.salePrice || '') +
+            ' ' +
+            (item.orgPrice || '')
           ).toLowerCase();
 
           return hay.includes(q);
@@ -914,33 +767,15 @@
       // ---------- Events ----------
       // wire up filters and controls
       search.addEventListener('input', applyFilters);
-      viewFilter.addEventListener('change', applyFilters);
       typeFilter.addEventListener('change', applyFilters);
       thcFilter.addEventListener('change', applyFilters);
       reset.addEventListener('click', () => {
         search.value = '';
-        viewFilter.value = 'both';
         typeFilter.value = 'all';
         thcFilter.value = 'any';
         applyFilters();
       });
       
-      // IG popup
-      document.querySelector(".ig a").addEventListener("click", function (e) {
-        e.preventDefault(); // stop redirect
-        document.getElementById("igPopup").style.display = "flex";
-      });
-
-      document.querySelector(".ig-close").addEventListener("click", function () {
-        document.getElementById("igPopup").style.display = "none";
-      });
-
-      // click outside to close
-      document.getElementById("igPopup").addEventListener("click", function (e) {
-        if (e.target === this) {
-          this.style.display = "none";
-        }
-      });
   
 
 
@@ -951,33 +786,19 @@
         toggleControls.textContent = isShown ? 'Hide Controls' : 'Show Controls';
       });
 
-      // details modal (works for strains and products)
+      // details modal for products
       document.body.addEventListener('click', (e) => {
         const id = e.target.getAttribute('data-id');
         if (!id) return;
 
-        let s = strains.find((x) => x.id == id);
-        let kind = 'strain';
-        if (!s) {
-          s = products.find((x) => x.id == id);
-          kind = 'product';
-        }
-        if (!s) return;
+        const p = products.find((x) => x.id == id);
+        if (!p) return;
 
-        if (kind === 'strain') {
-          document.getElementById('m-title').textContent = s.name + ' — ' + s.type.toUpperCase();
-          document.getElementById('m-desc').textContent = s.desc;
-          // Show raw THC/CBD values (don't append extra %)
-          const salePrice = Number(s.price) || 10.99;
-          const origPrice = (salePrice * 1.2).toFixed(2);
-          document.getElementById('m-notes').textContent = `THC: ${s.thc} · CBD: ${s.cbd} · Price: $${salePrice.toFixed(2)} (was $${origPrice})`;
-        } else {
-          document.getElementById('m-title').textContent = s.name + ' — ' + s.category;
-          document.getElementById('m-desc').textContent = s.desc;
-          const salePrice = Number(s.price) || 10.99;
-          const origPrice = (salePrice * 1.2).toFixed(2);
-          document.getElementById('m-notes').textContent = `Weight: ${s.grams} · Potency: ${s.potency} · Price: $${salePrice.toFixed(2)} (was $${origPrice})`;
-        }
+        document.getElementById('m-title').textContent = p.name + (p.type ? ' — ' + p.type.toUpperCase() : '');
+        document.getElementById('m-desc').textContent = p.desc;
+        const salePrice = Number(p.salePrice) || 10.99;
+        const origPrice = Number(p.orgPrice) || salePrice;
+        document.getElementById('m-notes').textContent = `THC: ${p.thc || ''} · CBD: ${p.cbd || ''} · Price: $${salePrice.toFixed(2)} (was $${origPrice.toFixed(2)})`;
 
         document.getElementById('modal').style.display = 'flex';
       });
