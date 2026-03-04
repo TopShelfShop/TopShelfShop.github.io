@@ -706,12 +706,16 @@
           const origPrice = Number(p.orgPrice) || salePrice;
 
           // build simple tag block using type/thc/cbd if available
-          const tagsHtml = p.type || p.thc || p.cbd ? `
+          // only show pills for grease monkey cannabis items (id 1 and 9)
+          let tagsHtml = '';
+          if ([1, 9].includes(p.id) && (p.type || p.thc || p.cbd)) {
+            tagsHtml = `
               <div class="tags">
                 ${p.type ? `<div class="pill">${p.type.toUpperCase()}</div>` : ''}
                 ${p.thc ? `<div class="pill">THC: ${p.thc}</div>` : ''}
                 ${p.cbd ? `<div class="pill">CBD: ${p.cbd}</div>` : ''}
-              </div>` : '';
+              </div>`;
+          }
 
           card.innerHTML = `
             <div class="thumb"><img alt="${p.name} photo" src="images/${p.image}"></div>
