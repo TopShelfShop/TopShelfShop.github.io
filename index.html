@@ -402,7 +402,7 @@
   <body>
     <!-- Service announcement bar -->
     <div id="announcementBar">
-      📢 Announcements: <br> SNAPCHAT GOT BANNED @pjwops ON INSTA <br> HUGE NEW VAPE STOCK!! <br>- M now availble; dm
+      📢 Announcements: <br>- snap banned; @pjwops ON INSTA <br>- loud sold out for a lil bit [6-8 business days]
     </div>
 
     <!-- reCAPTCHA verification overlay -->
@@ -496,7 +496,7 @@
       // list of items (formerly "strains"); prices can now be set directly
       const products = [
         {
-          id: 12,
+          id: 'mesh08',
           name: '5% nic OVNS Mesh08 – 2,500 Puff Disposable Vape',
           image: 'mesh08.png',
           type: 'sativa',
@@ -507,7 +507,7 @@
           orgPrice: 30.00
         },
         {
-          id: 13,
+          id: 'starpods',
           name: '5% nic STARPods – 3x2ml E-Pods',
           image: 'starpods.png',
           type: 'sativa',
@@ -518,7 +518,7 @@
           orgPrice: 30.00
         },
         {
-          id: 14,
+          id: 'stlth',
           name: 'STLTH Device Type C - 470mAh',
           image: 'stlthdevice.png',
           type: 'sativa',
@@ -529,7 +529,7 @@
           orgPrice: 30.00
         },
         {
-          id: 1,
+          id: 'grease-monkey',
           name: 'Grease Monkey Cannabis – Premium Hybrid',
           image: 'greaseMonkey.png',
           type: 'hybrid',
@@ -542,7 +542,7 @@
           orgPrice: 30.00
         },
         {
-          id: 2,
+          id: 'mesh10',
           name: '5% nic OVNS Mesh10 – 3,000 Puff Disposable Vape',
           image: 'ovnsMesh10s.png',
           type: 'hybrid',
@@ -563,7 +563,7 @@
           orgPrice: 35.00        
         },
         {
-          id: 3,
+          id: 'mesh20',
           name: '5% nic OVNS Mesh20 – 10,000 Puff Disposable Vape',
           image: 'ovnsMesh20s.png',
           type: 'hybrid',
@@ -576,7 +576,7 @@
           orgPrice: 50.00
         },
         {
-          id: 4,
+          id: 'penis-envy',
           name: 'Penis Envy Shrooms – Potent Psilocybin Mushrooms',
           image: 'penisEnvy.png',
           type: 'indica',
@@ -589,7 +589,7 @@
           orgPrice: 45.00
         },
         {
-          id: 5,
+          id: 'blue-meaniez',
           name: 'Blue Meaniez Shrooms – Potent Psilocybin Mushrooms',
           image: 'bluemeaniez.png',
           type: 's',
@@ -602,7 +602,7 @@
           orgPrice: 40.00
         },
         {
-          id: 6,
+          id: 'blue-diesel',
           name: 'Blueberry Diesel Vape – 1.1g THC Distillate Cart',
           image: 'blueberryDieselCart.png',
           type: 'sativa',
@@ -615,7 +615,7 @@
           orgPrice: 40.00
         },
         {
-          id: 7,
+          id: 'mango-kush',
           name: 'Mango Kush Vape – 1.1g THC Distillate Cart',
           image: 'mangoKushCart.png',
           type: 'indica',
@@ -628,7 +628,7 @@
           orgPrice: 40.00
         },
         {
-          id: 8,
+          id: 'solei',
           name: 'Solei 510 Thread Battery – Universal Vape Pen',
           image: '510battery.png',
           type: 'hybrid',
@@ -639,7 +639,7 @@
           orgPrice: 25.00
         },
         {
-          id: 9,
+          id: 'prerolls',
           name: 'Pre-rolls Grease Monkey Cannabis – Organic Slow Burning Joints',
           image: 'prerolls.png',
           type: 'hybrid',
@@ -650,7 +650,7 @@
           orgPrice: 20.00
         },
         {
-          id: 10,
+          id: 'lsd',
           name: '100µg LSD Tabs – Lab-Tested Psychedelic Blotters',
           image: 'vanCityAcid.png',
           type: 'sativa',
@@ -661,7 +661,7 @@
           orgPrice: 24.00
         },
         {
-          id: 11,
+          id: 'cigs',
           name: 'Cigarettes',
           image: 'bmboclat.png',
           type: 'sativa',
@@ -696,7 +696,7 @@
 
         list.forEach((p) => {
           // hide specific tiles by id
-          const hiddenIds = [3, 4, 5, 7, 10, 11, 6];
+          const hiddenIds = ['cigs','blue-meaniez','lsd','penis-envy','prerolls','grease-monkey','mesh20','mesh10','blue-diesel','mango-kush'];
           if (hiddenIds.includes(p.id)) return;
 
           const card = document.createElement('article');
@@ -708,7 +708,7 @@
           // build simple tag block using type/thc/cbd if available
           // only show pills for grease monkey cannabis items (id 1 and 9)
           let tagsHtml = '';
-          if ([1, 9].includes(p.id) && (p.type || p.thc || p.cbd)) {
+          if (['prerolls','grease-monkey'].includes(p.id) && (p.type || p.thc || p.cbd)) {
             tagsHtml = `
               <div class="tags">
                 ${p.type ? `<div class="pill">${p.type.toUpperCase()}</div>` : ''}
@@ -795,7 +795,7 @@
         const id = e.target.getAttribute('data-id');
         if (!id) return;
 
-        const p = products.find((x) => x.id == id);
+        const p = products.find((x) => x.id === id);
         if (!p) return;
 
         document.getElementById('m-title').textContent = p.name + (p.type ? ' — ' + p.type.toUpperCase() : '');
