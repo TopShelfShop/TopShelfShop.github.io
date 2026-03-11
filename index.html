@@ -511,7 +511,7 @@
           name: 'Disposable Vape [2g] – Rechargable Vape Cartridge',
           image: '2gKarts.png',
           type: 'Hybrid',
-          thc: '95%',
+          thc: '91%-94%',
           cbd: 0.1,
           desc: '2g Rechargeable THC Vape <br>By: dabpens© <br>Capacity: 2000mL <br><br>Available Flavours:<br> - Grape Punch <br> - Alaskan Thunderfuck <br> - Orange Crush <br> - Pineapple Express <br> - Durban Lemonade <br> - Hawaiian Haze <br> - Purple Punch<br> - Lemon Haze',
           salePrice: 55.00,
@@ -719,7 +719,7 @@
           // build simple tag block using type/thc/cbd if available
           // only show pills for grease monkey cannabis items (id 1 and 9)
           let tagsHtml = '';
-          if (['prerolls','grease-monkey'].includes(p.id) && (p.type || p.thc || p.cbd)) {
+          if (['prerolls','grease-monkey','2gDispos'].includes(p.id) && (p.type || p.thc || p.cbd)) {
             tagsHtml = `
               <div class="tags">
                 ${p.type ? `<div class="pill">${p.type.toUpperCase()}</div>` : ''}
