@@ -1,0 +1,863 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Top-Shelf-Shop: Product Catalog</title>
+    <meta
+      name="description"
+      content="Top-Shelf-Shop — premium products and flower available for delivery."
+    />
+    <!-- favicon / browser tab icon -->
+    <link rel="icon" type="image/png" href="images/theTopShelfLogo.png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="images/theTopShelfLogo.png" />
+    <meta name="theme-color" content="#0f1113" />
+    <!-- reCAPTCHA script -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    <style>
+      /* ---------- Theme variables & base styles ---------- */
+      :root {
+        --bg: #0f1113;
+        --card: #111418;
+        --muted: #9aa3a8;
+        --accent: #bca56a;
+        --glass: rgba(255, 255, 255, 0.03);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+        background: linear-gradient(180deg, #0b0c0d 0%, #0f1113 100%);
+        color: #e6eef1;
+        min-height: 100vh;
+      }
+
+      header {
+        padding: 2rem 1rem;
+        text-align: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 2.1rem;
+        letter-spacing: 0.4px;
+        font-family: 'Courier New', Courier, monospace;
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      #siteLogo {
+        display: inline-block;
+        height: 40px;
+        margin: 0 0.6rem 0 0;
+        vertical-align: middle;
+        object-fit: contain;
+      }
+
+      header p {
+        margin: 0.4rem 0 0;
+        color: var(--muted);
+      }
+
+      main {
+        max-width: 1100px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+      }
+
+      .controls {
+        display: none;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      .controls.show {
+        display: flex;
+      }
+
+      #toggleControls {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 100;
+        display: none; /* hidden per user request; toggle remains in DOM */
+      }
+
+
+      .search {
+        flex: 1;
+        min-width: 180px;
+      }
+
+      input,
+      select {
+        background: var(--card);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        padding: 0.6rem 0.75rem;
+        border-radius: 8px;
+        color: inherit;
+      }
+
+      button {
+        background: var(--accent);
+        border: none;
+        padding: 0.6rem 0.9rem;
+        border-radius: 8px;
+        color: #071013;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 1rem;
+      }
+
+      .grid.show {
+        display: grid;
+      }
+
+      .card {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.04));
+        padding: 1rem;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        position: relative;
+        opacity: 0.45;
+        pointer-events: none;
+      }
+
+      .sold-out-badge {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.75);
+        color: #fff;
+        font-weight: 700;
+        font-size: 1rem;
+        letter-spacing: 1.5px;
+        padding: 0.4rem 1rem;
+        border-radius: 6px;
+        border: 1px solid rgba(255,255,255,0.15);
+        pointer-events: none;
+        white-space: nowrap;
+        text-transform: uppercase;
+        z-index: 2;
+      }
+
+      .thumb img {
+        filter: grayscale(100%);
+      }
+
+      .thumb {
+        aspect-ratio: 1 / 1;
+        width: 100%;
+        max-width: 230px; /* optional if you want same size as before */
+        border-radius: 8px;
+        overflow: hidden;
+        background: var(--glass);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0.75rem;
+      }
+
+
+      .thumb img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        display: block;
+      }
+
+
+      .tags {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin-top: 0.5rem;
+      }
+
+      .pill {
+        background: rgba(255, 255, 255, 0.03);
+        padding: 0.25rem 0.5rem;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        color: var(--muted);
+      }
+
+      .meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 0.5rem;
+      }
+
+      .meta small {
+        color: var(--muted);
+      }
+
+      .price {
+        margin-top: 0.45rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .price .orig {
+        color: var(--muted);
+        text-decoration: line-through;
+        font-size: 0.95rem;
+      }
+
+      .price .sale {
+        color: var(--accent);
+        font-weight: 700;
+        font-size: 1rem;
+      }
+
+      footer {
+        text-align: center;
+        padding: 1.5rem 1rem;
+        color: var(--muted);
+        border-top: 1px solid rgba(255, 255, 255, 0.03);
+        margin-top: 2rem;
+      }
+
+    
+
+      /* product modal */
+      .modal {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.75));
+        z-index: 1000;
+      }
+
+      .modal .inner {
+        background: var(--card);
+        padding: 1rem;
+        border-radius: 10px;
+        max-width: 760px;
+        width: 92%;
+      }
+
+      .modal .inner h3 {
+        margin: 0;
+      }
+
+      @media (max-width: 520px) {
+        header h1 {
+          font-size: 1.2rem;
+        }
+        
+        /* thumbnail */
+        .thumb {
+          aspect-ratio: 1 / 1;
+          width: 100%;
+          border-radius: 8px;
+          overflow: hidden;
+          background: var(--glass);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+      }
+
+      .modal button {
+        background: var(--accent);
+        border: none;
+        padding: 0.5rem 0.9rem;
+        border-radius: 8px;
+        color: #071013;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .card button {
+        display: none;
+      }
+
+      .modal {
+        opacity: 0;
+        transition: opacity 0.25s ease;
+        pointer-events: none;
+      }
+
+      .modal.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .ig {
+        margin-top: 0.75rem;
+      }
+
+      .ig a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+
+      .ig a:hover {
+        text-decoration: underline;
+      }
+
+      /* reCAPTCHA overlay */
+      #recaptchaOverlay {
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(4, 6, 8, 0.95), rgba(4, 6, 8, 0.98));
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+      }
+
+      #recaptchaOverlay.hidden {
+        display: none;
+      }
+
+      .recaptcha-box {
+        max-width: 520px;
+        background: var(--card);
+        padding: 2rem;
+        border-radius: 12px;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+      }
+
+      .recaptcha-box h2 {
+        margin: 0 0 1rem;
+        font-size: 1.4rem;
+      }
+
+      .recaptcha-box p {
+        color: var(--muted);
+        margin: 0 0 1.5rem;
+        line-height: 1.5;
+      }
+
+      .g-recaptcha {
+        display: flex;
+        justify-content: center;
+        margin: 1.5rem 0;
+      }
+
+      /* Age verification overlay */
+      #ageGate {
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(4,6,8,0.92), rgba(4,6,8,0.96));
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+      }
+
+      #ageGate .box {
+        background: var(--card);
+        padding: 1.25rem 1.5rem;
+        border-radius: 12px;
+        text-align: center;
+        max-width: 460px;
+        width: 92%;
+        border: 1px solid rgba(255,255,255,0.04);
+      }
+
+      #ageGate h2 { margin: 0 0 0.5rem; }
+      #ageGate p { color: var(--muted); margin: 0 0 1rem; }
+      #ageGate .deny { background: transparent; color: var(--muted); border: 1px solid rgba(255,255,255,0.04); }
+      #ageGate .box button { margin: 0 0.35rem; }
+      
+      .dm-note {
+        display: block;
+        font-size: 0.75rem;
+        color: var(--muted);
+        margin-top: 0.25rem;
+        letter-spacing: 0.3px;
+      }
+
+
+      .ig-close {
+        position: absolute;
+        top: -12px;
+        right: -12px;
+        background: #000;
+        color: #fff;
+        border: none;
+        font-size: 1.1rem;
+        padding: 4px 8px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      /* Announcement bar */
+      #announcementBar {
+        background: #000000;
+        color: #ffffff;
+        padding: 0.2rem;
+        text-align: center;
+        font-size: 0.93rem;
+        font-weight: 500;
+        line-height: 1.4;
+        width: 100%;
+        box-sizing: border-box;
+        max-height: 90px;
+        display: block;
+      }
+    </style>
+  </head>
+
+  
+  <body>
+    <!-- Service announcement bar -->
+    <div id="announcementBar">
+      📢 Announcements: <br>🔒 Shop is on pause for the time being. Bulk inquiries only — @pjwops on Telegram.
+    </div>
+
+    <!-- Disclaimer bar -->
+    <div style="background:#1a1a1a;color:var(--muted);text-align:center;padding:0.4rem 1rem;font-size:0.8rem;border-bottom:1px solid rgba(255,255,255,0.04);">
+      This is a fictional storefront created for design purposes. No products are real and nothing is sold here.
+    </div>
+
+    <!-- reCAPTCHA verification overlay -->
+    <div id="recaptchaOverlay">
+      <div class="recaptcha-box">
+        <h2>Verify Access</h2>
+        <p>Complete the reCAPTCHA below to view our product catalog.</p>
+        <div class="g-recaptcha" data-sitekey="6Lf1ZB4sAAAAAFanXTtPdqmtD7XAmJ3MAABTq7hY" data-callback="onRecaptchaSuccess"></div>
+        <p style="font-size:0.85rem;color:var(--muted);margin-top:1rem">
+          This site is protected by reCAPTCHA and the Google
+          <a href="https://policies.google.com/privacy" target="_blank" style="color:var(--accent)">Privacy Policy</a> and
+          <a href="https://policies.google.com/terms" target="_blank" style="color:var(--accent)">Terms of Service</a> apply.
+        </p>
+      </div>
+    </div>
+
+    <!-- age gate (reintroduced) -->
+    <div id="ageGate" role="dialog" aria-labelledby="ageGateTitle" aria-modal="true">
+      <div class="box">
+        <h2 id="ageGateTitle">Age Verification</h2>
+        <p>You must be 19 years of age or older to view this site. Please confirm you are 19+ to continue.</p>
+        <div>
+          <button id="ageYes">I am 19+</button>
+          <button id="ageNo" class="deny">Exit</button>
+        </div>
+      </div>
+    </div>
+
+    <header>
+      <img id="siteLogo" src="images/theTopShelfLogo.png" alt="Top Shelf Logo" />
+      <h1>Top Shelf Shop</h1>
+      <p>PRODUCT CATALOG - UPDATED EVERY THURSDAY</p>
+
+
+    </header>
+
+    <main>
+      <button id="toggleControls">Show Controls</button>
+
+      <div class="controls">
+        <input class="search" id="search" placeholder="Search products, effects, or notes" />
+
+
+
+        <select id="typeFilter">
+          <option value="all">All types</option>
+          <option value="indica">Indica</option>
+          <option value="sativa">Sativa</option>
+          <option value="hybrid">Hybrid</option>
+        </select>
+
+        <select id="thcFilter">
+          <option value="any">Any THC</option>
+          <option value="low">Low &lt;10%</option>
+          <option value="med">10–20%</option>
+          <option value="high">20%+</option>
+        </select>
+
+        <button id="reset">Reset</button>
+      </div>
+
+
+      <section class="grid" id="catalog">
+        <!-- Cards injected by JS -->
+      </section>
+
+      <!-- Footer / legal notice -->
+      <footer>
+        <small>
+          This is a fictional storefront created for design purposes. No products are real and nothing is sold here. &copy; Top-Shelf-Shop
+        </small>
+      </footer>
+
+      <!-- Modal: shows details for a product -->
+      <div class="modal" id="modal" aria-hidden="true">
+        <div class="inner">
+          <h3 id="m-title">Product name</h3>
+          <p id="m-desc"></p>
+          <p id="m-notes" style="color:var(--muted)"></p>
+          <div style="text-align:right;margin-top:.75rem">
+            <button id="closeModal">Close</button>
+          </div>
+        </div>
+      </div>
+
+    <script>
+      // ---------- Data: products ----------
+      // list of items (formerly "strains"); prices can now be set directly
+      const products = [
+        {
+          id: 'mesh08',
+          name: '5% nic OVNS Mesh08 – 2,500 Puff Disposable Vape',
+          image: 'mesh08.png',
+          type: 'sativa',
+          thc: '26%-28%',
+          cbd: 0.1,
+          desc: 'Puffs: Up to 2,500 <br>Capacity: 8mL <br>Battery:  1150 mAh <br><br>Available Flavours:<br> - Mexican Mango [LIMITED EDITION] <br> - Mango Frost [LIMITED EDITION] <br> - Red B Melon Ice <br> - StrawBWMelon Ice <br> - Skittles <br> - Guava Lychee <br> - Tropical Rainbow Frost [LIMITED EDITION]<br> - Mixed Berry',
+          salePrice: 25.00,
+          orgPrice: 30.00
+        },
+        {
+          id: '2gDispos',
+          name: 'Disposable Vape [2g] – Rechargable Vape Cartridge',
+          image: '2gKarts.png',
+          type: 'Hybrid',
+          thc: '91%-94%',
+          cbd: 0.1,
+          desc: '2g Rechargeable THC Vape <br>By: dabpens© <br>Capacity: 2000mL <br><br>Available Flavours:<br> - Grape Punch <br> - Alaskan Thunderfuck <br> - Orange Crush <br> - Pineapple Express <br> - Durban Lemonade <br> - Hawaiian Haze <br> - Purple Punch<br> - Lemon Haze',
+          salePrice: 55.00,
+          orgPrice: 60.00
+        },
+        {
+          id: 'starpods',
+          name: '5% nic STARPods – 3x2ml E-Pods',
+          image: 'starpods.png',
+          type: 'sativa',
+          thc: '26%-28%',
+          cbd: 0.1,
+          desc: 'Each pack contains 3 disposable vape pods, each individually packaged for optimal freshness. 2.0 mL of E-liquid per pod.  <br><br>Available Flavours:<br> - Mango Pineapple <br> - Pink Lemonade [1 LEFT!] <br> - Strawnana <br> - Caribbean Punch',
+          salePrice: 25.00,
+          orgPrice: 30.00
+        },
+        {
+          id: 'stlth',
+          name: 'STLTH Device Type C - 470mAh',
+          image: 'stlthdevice.png',
+          type: 'sativa',
+          thc: '26%-28%',
+          cbd: 0.1,
+          desc: '⭐Pods Compatible;<br>Package includes:<br> 1 x Device (Black)<br> 1 x USB Type-C Cable<br> 1 x Instruction + Warranty Manual<br><br>Available Colours:<br> - Grey [1 LEFT!] ',
+          salePrice: 25.00,
+          orgPrice: 30.00
+        },
+        {
+          id: 'grease-monkey',
+          name: 'Grease Monkey Cannabis – Premium Hybrid',
+          image: 'greaseMonkey.png',
+          type: 'hybrid',
+          thc: '26%-28%',
+          cbd: 0.1,
+          flavour: 'Berry, Sweet',
+          effects: 'Relaxed, Happy',
+          desc: 'Grease Monkey is an  indica-dominant hybrid offering a vanilla-sweet flavor with a diesel finish. <br><br> - 3.5g/$25 <br> - 5g/$30 <br> - 7g/$35 <br> - 10g/$40 <br> - 14g/$45 <br> - 28g/$80 <br> - QP+/ dm me',
+          salePrice: 25.00,
+          orgPrice: 30.00
+        },
+        {
+          id: 'mesh10',
+          name: '5% nic OVNS Mesh10 – 3,000 Puff Disposable Vape',
+          image: 'ovnsMesh10s.png',
+          type: 'hybrid',
+          thc: '26%-28%',
+          cbd: 0.1,
+          flavour: 'Berry, Sweet',
+          effects: 'Relaxed, Happy',
+          desc: `Puffs: Up to 3,000 <br>Capacity: 10mL <br>Battery: 1200mAh <br><br>Available Flavours:<br>
+          - G-Bear <br>
+          - Mixed Berry [1 LEFT!] <br>
+          - Peach Ice <br>
+          - Lush (Watermelon) Ice (sold out)<br>
+          - Skittles Ice (sold out)<br>
+          - GuavaKiwiPassionfruit (sold out)<br>
+          - Blue Razz (sold out)<br>
+          - Grape Ice (sold out)<br>`,
+          salePrice: 30.00,
+          orgPrice: 35.00        
+        },
+        {
+          id: 'mesh20',
+          name: '5% nic OVNS Mesh20 – 10,000 Puff Disposable Vape',
+          image: 'ovnsMesh20s.png',
+          type: 'hybrid',
+          thc: '26%-28%',
+          cbd: 0.1,
+          flavour: 'Strawberry Watermelon',
+          effects: '',
+          desc: 'Puffs: Up to 10,000 <br>Capacity: 20mL <br>Battery: 600mAh <br><br>Available Flavours:<br>- Strawberry Watermelon',
+          salePrice: 45.00,
+          orgPrice: 50.00
+        },
+
+
+        {
+          id: 'blue-diesel',
+          name: 'Blueberry Diesel Vape – 1.1g THC Distillate Cart',
+          image: 'blueberryDieselCart.png',
+          type: 'sativa',
+          thc: '88%',
+          cbd: 0.05,
+          flavour: 'Diesel, Citrus',
+          effects: 'Energetic, Focused',
+          desc: 'Sweet and pungent, Blueberry Diesel 1ml THC vape cart delivers potent effects, pure distillate, bold flavor, and smooth draws with 510-thread compatibility.',
+          salePrice: 35.00,
+          orgPrice: 40.00
+        },
+        {
+          id: 'mango-kush',
+          name: 'Mango Kush Vape – 1.1g THC Distillate Cart',
+          image: 'mangoKushCart.png',
+          type: 'indica',
+          thc: '86%',
+          cbd: 0.1,
+          flavour: 'Sweet, Spicy',
+          effects: 'Sleepy, Relaxed',
+          desc: 'Potent 1ml THC distillate vape cart. Premium quality, 510-thread compatible, and full of flavor.',
+          salePrice: 35.00,
+          orgPrice: 40.00
+        },
+        {
+          id: 'solei',
+          name: 'Solei 510 Thread Battery – Universal Vape Pen',
+          image: '510battery.png',
+          type: 'hybrid',
+          thc: 'N/A',
+          cbd: 'N/A',
+          desc: 'Universal 510 thread battery compatible with all standard cartridges.',
+          salePrice: 18.99,
+          orgPrice: 25.00
+        },
+        {
+          id: 'prerolls',
+          name: 'Pre-rolls Grease Monkey Cannabis – Organic Slow Burning Joints',
+          image: 'prerolls.png',
+          type: 'hybrid',
+          thc: '26%-28%',
+          cbd: 0.1,
+          desc: 'Premium pre-rolled 1g joints ready to enjoy.<br><br> - 2/$18 <br> - 3/$22 <br> - 5/$32 <br> - 10/$48 <br>',
+          salePrice: 18.00,
+          orgPrice: 20.00
+        },
+
+
+      ];
+
+
+
+      // ---------- DOM references ----------
+      const catalog = document.getElementById('catalog');
+      const search = document.getElementById('search');
+      const typeFilter = document.getElementById('typeFilter');
+      const thcFilter = document.getElementById('thcFilter');
+      const reset = document.getElementById('reset');
+      const toggleControls = document.getElementById('toggleControls');
+      const controls = document.querySelector('.controls');
+      const grid = document.getElementById('catalog');
+
+      // Render a list of items into the catalog element
+      function render(list) {
+        catalog.innerHTML = '';
+
+        if (!list.length) {
+          catalog.innerHTML = '<p style="color:var(--muted)">No items match your filters.</p>';
+          return;
+        }
+
+        list.forEach((p) => {
+          // hide specific tiles by id
+          const hiddenIds = ['cigs','blue-meaniez','lsd','penis-envy','prerolls','grease-monkey','mesh20','mesh10','blue-diesel','mango-kush'];
+          if (hiddenIds.includes(p.id)) return;
+
+          const card = document.createElement('article');
+          card.className = 'card';
+
+          const salePrice = Number(p.salePrice) || 10.99;
+          const origPrice = Number(p.orgPrice) || salePrice;
+
+          // build simple tag block using type/thc/cbd if available
+          // only show pills for grease monkey cannabis items (id 1 and 9)
+          let tagsHtml = '';
+          if (['prerolls','grease-monkey','2gDispos'].includes(p.id) && (p.type || p.thc || p.cbd)) {
+            tagsHtml = `
+              <div class="tags">
+                ${p.type ? `<div class="pill">${p.type.toUpperCase()}</div>` : ''}
+                ${p.thc ? `<div class="pill">THC: ${p.thc}</div>` : ''}
+                ${p.cbd ? `<div class="pill">CBD: ${p.cbd}</div>` : ''}
+              </div>`;
+          }
+
+          card.innerHTML = `
+            <div class="sold-out-badge">Sold Out</div>
+            <div class="thumb"><img alt="${p.name} photo" src="images/${p.image}"></div>
+            <h3 style="margin:0">${p.name}</h3>
+            ${tagsHtml}
+            <p style="margin:.6rem 0 .2rem;color:var(--muted);font-size:.95rem">${p.desc}</p>
+            <div class="price"><small class="orig">$${origPrice.toFixed(2)}</small><span class="sale">$${salePrice.toFixed(2)}</span></div>
+            <div class="meta"><button data-id="${p.id}">Details</button></div>
+          `;
+
+          catalog.appendChild(card);
+        });
+      }
+
+      // Apply filters and search to product list and render results
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const type = typeFilter.value;
+        const thc = thcFilter.value;
+
+        const pool = products.slice(); // copy of dataset
+
+        const out = pool.filter((item) => {
+          if (type !== 'all' && item.type !== type) return false;
+          if (thc === 'low' && !(item.thc < 10)) return false;
+          if (thc === 'med' && !(item.thc >= 10 && item.thc <= 20)) return false;
+          if (thc === 'high' && !(item.thc > 20)) return false;
+
+          if (!q) return true;
+
+          const hay = (
+            (item.name || '') +
+            ' ' +
+            (item.desc || '') +
+            ' ' +
+            (item.flavour || '') +
+            ' ' +
+            (item.effects || '') +
+            ' ' +
+            (item.category || '') +
+            ' ' +
+            (item.salePrice || '') +
+            ' ' +
+            (item.orgPrice || '')
+          ).toLowerCase();
+
+          return hay.includes(q);
+        });
+
+        render(out);
+      }
+
+      // ---------- Events ----------
+      // wire up filters and controls
+      search.addEventListener('input', applyFilters);
+      typeFilter.addEventListener('change', applyFilters);
+      thcFilter.addEventListener('change', applyFilters);
+      reset.addEventListener('click', () => {
+        search.value = '';
+        typeFilter.value = 'all';
+        thcFilter.value = 'any';
+        applyFilters();
+      });
+      
+  
+
+
+      // toggle controls and grid visibility
+      toggleControls.addEventListener('click', () => {
+        const isShown = controls.classList.toggle('show');
+        grid.classList.toggle('show');
+        toggleControls.textContent = isShown ? 'Hide Controls' : 'Show Controls';
+      });
+
+      // details modal for products
+      document.body.addEventListener('click', (e) => {
+        const id = e.target.getAttribute('data-id');
+        if (!id) return;
+
+        const p = products.find((x) => x.id === id);
+        if (!p) return;
+
+        document.getElementById('m-title').textContent = p.name + (p.type ? ' — ' + p.type.toUpperCase() : '');
+        document.getElementById('m-desc').textContent = p.desc;
+        const salePrice = Number(p.salePrice) || 10.99;
+        const origPrice = Number(p.orgPrice) || salePrice;
+        document.getElementById('m-notes').textContent = `THC: ${p.thc || ''} · CBD: ${p.cbd || ''} · Price: $${salePrice.toFixed(2)} (was $${origPrice.toFixed(2)})`;
+
+        document.getElementById('modal').style.display = 'flex';
+      });
+
+      document.getElementById('closeModal').addEventListener('click', () => document.getElementById('modal').style.display = 'none');
+
+      // age gate: show overlay until user confirms they're 18+
+      (function() {
+        const AGE_KEY = 'topShelfAge';
+        const gate = document.getElementById('ageGate');
+        const yes = document.getElementById('ageYes');
+        const no = document.getElementById('ageNo');
+
+        function show() {
+          if (!gate) return;
+          gate.style.display = 'flex';
+          gate.setAttribute('aria-hidden', 'false');
+        }
+
+        function hide() {
+          if (!gate) return;
+          gate.style.display = 'none';
+          gate.setAttribute('aria-hidden', 'true');
+        }
+
+        // If already verified, hide the gate
+        if (localStorage.getItem(AGE_KEY) === 'true') {
+          hide();
+        } else {
+          show();
+        }
+
+        if (yes) {
+          yes.addEventListener('click', function () {
+            localStorage.setItem(AGE_KEY, 'true');
+            hide();
+          });
+        }
+
+        if (no) {
+          no.addEventListener('click', function () {
+            // If user declines, send them away
+            window.location.href = 'https://www.google.com';
+          });
+        }
+      })();
+      // reCAPTCHA verification
+      window.onRecaptchaSuccess = function() {
+        localStorage.setItem('recaptchaVerified', 'true');
+        document.getElementById('recaptchaOverlay').classList.add('hidden');
+      };
+
+      // Check if reCAPTCHA is already verified
+      if (localStorage.getItem('recaptchaVerified') === 'true') {
+        document.getElementById('recaptchaOverlay').classList.add('hidden');
+      }
+
+      // initial render
+      applyFilters();
+    </script>
+  </body>
+</html>
